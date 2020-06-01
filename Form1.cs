@@ -29,7 +29,7 @@ namespace wmap_analysis
         {
             public Line Line1 { get; }
             public Line Line2 { get; }
-            public PointF Point { get; }
+            public Point Point { get; }
             public bool Exists { get; }
 
             public Intersection(Line line1, Line line2)
@@ -56,32 +56,31 @@ namespace wmap_analysis
                 }
 
                 float t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denominator;
-                if (t < 0.0 || t > 1.0)
+                if (t <= 0.0 || t >= 1.0)
                 {
                     Exists = false;
                     return;
                 }
 
                 float u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denominator;
-                if (u < 0.0 || u > 1.0)
+                if (u <= 0.0 || u >= 1.0)
                 {
                     Exists = false;
                     return;
                 }
 
                 Exists = true;
-                PointF intersection = new PointF();
-                intersection.X = x1 + t * (x2 - x1);
-                intersection.Y = y1 + t * (y2 - y1);
+                Point intersection = new Point();
+                intersection.X = (int)Math.Round(x1 + t * (x2 - x1));
+                intersection.Y = (int)Math.Round(y1 + t * (y2 - y1));
                 this.Point = intersection;
             }
         }
 
         PointF[] points1, points2;
         Line[] lines;
-        Intersection[] intersections;
-        int lineCount;
-        int intersectionCount;
+        List<Intersection> intersections;
+        List<Intersection> duplicates;
 
         public Form1()
         {
@@ -113,20 +112,53 @@ namespace wmap_analysis
                     else
                         points2 = points.ToArray();
                 }
-                lineCount = points1.Length * points2.Length;
+                int lineCount = points1.Length * points2.Length;
                 lines = new Line[lineCount];
                 int k = 0;
                 foreach (PointF point1 in points1)
                     foreach (PointF point2 in points2)
                         lines[k++] = new Line(point1, point2);
 
-                intersectionCount = lineCount * (lineCount - 1) / 2;
-                intersections = new Intersection[intersectionCount];
-                k = 0;
+                intersections = new List<Intersection>();
                 for (int i = 0; i < lineCount - 1; i++)
+                {
                     for (int j = i + 1; j < lineCount; j++)
-                        intersections[k++] = new Intersection(lines[i], lines[j]);
+                    {
+                        Intersection intersection = new Intersection(lines[i], lines[j]);
+                        if (intersection.Exists)
+                            intersections.Add(intersection);
+                    }
+                }
+                intersections.Sort((a, b) =>
+                {
+                    int ret = a.Point.X.CompareTo(b.Point.X);
+                    if (ret == 0) ret = a.Point.Y.CompareTo(b.Point.Y);
+                    return ret;
+                });
+                int count = intersections.Count;
+                lblIntersectionCount.Text = "Initial Intersections: " + count.ToString();
+                duplicates = new List<Intersection>();
+
+                if (SamePoints(intersections[0].Point, intersections[1].Point))
+                    duplicates.Add(intersections[0]);
+
+                for (int i = 1, countMinusOne = count - 1; i < countMinusOne; i++ )
+                {
+                    if (SamePoints(intersections[i - 1].Point, intersections[i].Point) || SamePoints(intersections[i].Point, intersections[i + 1].Point))
+                        duplicates.Add(intersections[i]);
+                }
+
+                if (SamePoints(intersections[count-2].Point, intersections[count-1].Point))
+                    duplicates.Add(intersections[count-1]);
+
+                lblDuplicateIntersections.Text = "Duplicate Intersections:" + duplicates.Count.ToString();
+
             }
+        }
+
+        private bool SamePoints (Point p1, Point p2)
+        {
+            return (p1.X == p2.X && p1.Y == p2.Y);
         }
     }
 }

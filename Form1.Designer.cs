@@ -33,6 +33,8 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblIntersectionCount = new System.Windows.Forms.Label();
+            this.lblDuplicateIntersections = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -66,15 +68,35 @@
             // openFilesToolStripMenuItem
             // 
             this.openFilesToolStripMenuItem.Name = "openFilesToolStripMenuItem";
-            this.openFilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openFilesToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.openFilesToolStripMenuItem.Text = "Open Files";
             this.openFilesToolStripMenuItem.Click += new System.EventHandler(this.OpenFilesToolStripMenuItem_Click);
+            // 
+            // lblIntersectionCount
+            // 
+            this.lblIntersectionCount.AutoSize = true;
+            this.lblIntersectionCount.Location = new System.Drawing.Point(13, 28);
+            this.lblIntersectionCount.Name = "lblIntersectionCount";
+            this.lblIntersectionCount.Size = new System.Drawing.Size(97, 13);
+            this.lblIntersectionCount.TabIndex = 2;
+            this.lblIntersectionCount.Text = "Initial Intersections:";
+            // 
+            // lblDuplicateIntersections
+            // 
+            this.lblDuplicateIntersections.AutoSize = true;
+            this.lblDuplicateIntersections.Location = new System.Drawing.Point(248, 28);
+            this.lblDuplicateIntersections.Name = "lblDuplicateIntersections";
+            this.lblDuplicateIntersections.Size = new System.Drawing.Size(118, 13);
+            this.lblDuplicateIntersections.TabIndex = 3;
+            this.lblDuplicateIntersections.Text = "Duplicate Intersections:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lblDuplicateIntersections);
+            this.Controls.Add(this.lblIntersectionCount);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
@@ -93,6 +115,8 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openFilesToolStripMenuItem;
+        private System.Windows.Forms.Label lblIntersectionCount;
+        private System.Windows.Forms.Label lblDuplicateIntersections;
     }
 }
 
