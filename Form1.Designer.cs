@@ -84,7 +84,7 @@
             // lblDuplicateIntersections
             // 
             this.lblDuplicateIntersections.AutoSize = true;
-            this.lblDuplicateIntersections.Location = new System.Drawing.Point(248, 28);
+            this.lblDuplicateIntersections.Location = new System.Drawing.Point(12, 46);
             this.lblDuplicateIntersections.Name = "lblDuplicateIntersections";
             this.lblDuplicateIntersections.Size = new System.Drawing.Size(118, 13);
             this.lblDuplicateIntersections.TabIndex = 3;

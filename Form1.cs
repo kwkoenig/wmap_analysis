@@ -81,6 +81,7 @@ namespace wmap_analysis
         Line[] lines;
         List<Intersection> intersections;
         List<Intersection> duplicates;
+        Dictionary<int, List<Intersection>> multiples = new Dictionary<int, List<Intersection>>();
 
         public Form1()
         {
@@ -114,10 +115,10 @@ namespace wmap_analysis
                 }
                 int lineCount = points1.Length * points2.Length;
                 lines = new Line[lineCount];
-                int k = 0;
+                int l = 0;
                 foreach (PointF point1 in points1)
                     foreach (PointF point2 in points2)
-                        lines[k++] = new Line(point1, point2);
+                        lines[l++] = new Line(point1, point2);
 
                 intersections = new List<Intersection>();
                 for (int i = 0; i < lineCount - 1; i++)
@@ -137,21 +138,22 @@ namespace wmap_analysis
                 });
                 int count = intersections.Count;
                 lblIntersectionCount.Text = "Initial Intersections: " + count.ToString();
-                duplicates = new List<Intersection>();
 
-                if (SamePoints(intersections[0].Point, intersections[1].Point))
-                    duplicates.Add(intersections[0]);
-
-                for (int i = 1, countMinusOne = count - 1; i < countMinusOne; i++ )
+                for (int i = 0, j; i < count; i +=j)
                 {
-                    if (SamePoints(intersections[i - 1].Point, intersections[i].Point) || SamePoints(intersections[i].Point, intersections[i + 1].Point))
-                        duplicates.Add(intersections[i]);
+                    for (j = 1; i + j < count; j++)
+                    {
+                        if (!SamePoints(intersections[i].Point, intersections[i + j].Point))
+                            break;
+                    }
+                    if (j > 1)
+                    {
+                        if (!multiples.ContainsKey(j))
+                            multiples.Add(j, new List<Intersection>());
+                        for (int k = i; k < i + j; k++)
+                            multiples[j].Add(intersections[k]);
+                    }
                 }
-
-                if (SamePoints(intersections[count-2].Point, intersections[count-1].Point))
-                    duplicates.Add(intersections[count-1]);
-
-                lblDuplicateIntersections.Text = "Duplicate Intersections:" + duplicates.Count.ToString();
 
             }
         }
