@@ -36,6 +36,7 @@
             this.lblIntersectionCount = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblIntersection = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -56,7 +57,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1118, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(783, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -89,7 +90,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(12, 57);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(240, 682);
+            this.dataGridView1.Size = new System.Drawing.Size(240, 512);
             this.dataGridView1.TabIndex = 3;
             // 
             // pictureBox1
@@ -100,11 +101,20 @@
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             // 
+            // lblIntersection
+            // 
+            this.lblIntersection.AutoSize = true;
+            this.lblIntersection.Location = new System.Drawing.Point(263, 28);
+            this.lblIntersection.Name = "lblIntersection";
+            this.lblIntersection.Size = new System.Drawing.Size(0, 13);
+            this.lblIntersection.TabIndex = 5;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1118, 778);
+            this.ClientSize = new System.Drawing.Size(783, 584);
+            this.Controls.Add(this.lblIntersection);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.lblIntersectionCount);
@@ -131,6 +141,7 @@
         private System.Windows.Forms.Label lblIntersectionCount;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label lblIntersection;
     }
 }
 

@@ -56,14 +56,14 @@ namespace wmap_analysis
                 }
 
                 float t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denominator;
-                if (t <= 0.0 || t >= 1.0)
+                if (t <= 0.1 || t >= 0.9)
                 {
                     Exists = false;
                     return;
                 }
 
                 float u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denominator;
-                if (u <= 0.0 || u >= 1.0)
+                if (u <= 0.1 || u >= 0.9)
                 {
                     Exists = false;
                     return;
@@ -80,7 +80,6 @@ namespace wmap_analysis
         PointF[] points1, points2;
         Line[] lines;
         List<Intersection> intersections;
-        List<Intersection> duplicates;
         Dictionary<int, List<Intersection>> multiples = new Dictionary<int, List<Intersection>>();
 
         public Form1()
@@ -154,7 +153,7 @@ namespace wmap_analysis
                             multiples[j].Add(intersections[k]);
                     }
                 }
-
+                ResetDataGridView();
                 DataTable table = new DataTable();
                 table.Columns.Add("Multiple", typeof(int));
                 table.Columns.Add("Count", typeof(int));
@@ -182,6 +181,7 @@ namespace wmap_analysis
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int multiple = (int)dataGridView1[0, e.RowIndex].Value;
+            int count = (int)dataGridView1[1, e.RowIndex].Value;
             Bitmap bmp = new Bitmap(512, 512);
             for (int i = 0; i < 512; i++)
                 for (int j = 0; j < 512; j++)
@@ -197,7 +197,21 @@ namespace wmap_analysis
                     }
                 }
             }
-                pictureBox1.Image = bmp;
+            pictureBox1.Image = bmp;
+            if (count == multiple)
+            {
+                Intersection I = multiples[multiple][0];
+                lblIntersection.Text = string.Format("Intersection at ({0}, {1})", I.Point.X, I.Point.Y);
+            }
+            else
+                lblIntersection.Text = string.Empty;
+        }
+
+        private void ResetDataGridView()
+        {
+            dataGridView1.CancelEdit();
+            dataGridView1.Columns.Clear();
+            dataGridView1.DataSource = null;
         }
 
         private bool SamePoints (Point p1, Point p2)
