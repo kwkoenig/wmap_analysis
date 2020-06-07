@@ -182,6 +182,22 @@ namespace wmap_analysis
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int multiple = (int)dataGridView1[0, e.RowIndex].Value;
+            Bitmap bmp = new Bitmap(512, 512);
+            for (int i = 0; i < 512; i++)
+                for (int j = 0; j < 512; j++)
+                    bmp.SetPixel(i, j, Color.White);
+            using (Graphics gr = Graphics.FromImage(bmp))
+            {
+                using (Pen blackPen = new Pen(Color.Black, 1))
+                {
+                    foreach (Intersection I in multiples[multiple])
+                    {
+                        gr.DrawLine(blackPen, I.Line1.Point1, I.Line1.Point2);
+                        gr.DrawLine(blackPen, I.Line2.Point1, I.Line2.Point2);
+                    }
+                }
+            }
+                pictureBox1.Image = bmp;
         }
 
         private bool SamePoints (Point p1, Point p2)
