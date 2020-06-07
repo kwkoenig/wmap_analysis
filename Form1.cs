@@ -155,7 +155,33 @@ namespace wmap_analysis
                     }
                 }
 
+                DataTable table = new DataTable();
+                table.Columns.Add("Multiple", typeof(int));
+                table.Columns.Add("Count", typeof(int));
+                foreach (KeyValuePair<int, List<Intersection>> multiple in multiples)
+                {
+                    DataRow row = table.NewRow();
+                    row["Multiple"] = multiple.Key;
+                    row["Count"] = multiple.Value.Count;
+                    table.Rows.Add(row);
+                }
+                table.AcceptChanges();
+                dataGridView1.AutoGenerateColumns = true;
+                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                dataGridView1.AllowUserToAddRows = false;
+                dataGridView1.DataSource = table;
+                dataGridView1.Sort(dataGridView1.Columns[0], ListSortDirection.Descending);
+                DataGridViewButtonColumn btnCol = new DataGridViewButtonColumn();
+                btnCol.Text = "Draw";
+                btnCol.UseColumnTextForButtonValue = true;
+                dataGridView1.Columns.Add(btnCol);
+                dataGridView1.CellClick += DataGridView1_CellClick;
             }
+        }
+
+        private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int multiple = (int)dataGridView1[0, e.RowIndex].Value;
         }
 
         private bool SamePoints (Point p1, Point p2)

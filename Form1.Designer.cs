@@ -34,8 +34,9 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lblIntersectionCount = new System.Windows.Forms.Label();
-            this.lblDuplicateIntersections = new System.Windows.Forms.Label();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -53,7 +54,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(980, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -68,7 +69,7 @@
             // openFilesToolStripMenuItem
             // 
             this.openFilesToolStripMenuItem.Name = "openFilesToolStripMenuItem";
-            this.openFilesToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.openFilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openFilesToolStripMenuItem.Text = "Open Files";
             this.openFilesToolStripMenuItem.Click += new System.EventHandler(this.OpenFilesToolStripMenuItem_Click);
             // 
@@ -81,21 +82,20 @@
             this.lblIntersectionCount.TabIndex = 2;
             this.lblIntersectionCount.Text = "Initial Intersections:";
             // 
-            // lblDuplicateIntersections
+            // dataGridView1
             // 
-            this.lblDuplicateIntersections.AutoSize = true;
-            this.lblDuplicateIntersections.Location = new System.Drawing.Point(12, 46);
-            this.lblDuplicateIntersections.Name = "lblDuplicateIntersections";
-            this.lblDuplicateIntersections.Size = new System.Drawing.Size(118, 13);
-            this.lblDuplicateIntersections.TabIndex = 3;
-            this.lblDuplicateIntersections.Text = "Duplicate Intersections:";
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(12, 57);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(240, 682);
+            this.dataGridView1.TabIndex = 3;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.lblDuplicateIntersections);
+            this.ClientSize = new System.Drawing.Size(980, 778);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.lblIntersectionCount);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -104,6 +104,7 @@
             this.Text = "WMAP Analysis";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -116,7 +117,7 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openFilesToolStripMenuItem;
         private System.Windows.Forms.Label lblIntersectionCount;
-        private System.Windows.Forms.Label lblDuplicateIntersections;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
 
