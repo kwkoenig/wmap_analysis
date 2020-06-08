@@ -72,7 +72,7 @@
             // openFilesToolStripMenuItem
             // 
             this.openFilesToolStripMenuItem.Name = "openFilesToolStripMenuItem";
-            this.openFilesToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.openFilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openFilesToolStripMenuItem.Text = "Open Files";
             this.openFilesToolStripMenuItem.Click += new System.EventHandler(this.OpenFilesToolStripMenuItem_Click);
             // 
@@ -84,6 +84,7 @@
             this.lblIntersectionCount.Size = new System.Drawing.Size(97, 13);
             this.lblIntersectionCount.TabIndex = 2;
             this.lblIntersectionCount.Text = "Initial Intersections:";
+            this.lblIntersectionCount.Click += new System.EventHandler(this.LblIntersectionCount_Click);
             // 
             // dataGridView1
             // 
@@ -104,10 +105,10 @@
             // lblIntersection
             // 
             this.lblIntersection.AutoSize = true;
-            this.lblIntersection.Location = new System.Drawing.Point(263, 28);
+            this.lblIntersection.Location = new System.Drawing.Point(259, 38);
             this.lblIntersection.Name = "lblIntersection";
             this.lblIntersection.Size = new System.Drawing.Size(0, 13);
-            this.lblIntersection.TabIndex = 5;
+            this.lblIntersection.TabIndex = 12;
             // 
             // Form1
             // 
@@ -123,6 +124,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "WMAP Analysis";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

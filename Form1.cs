@@ -56,14 +56,14 @@ namespace wmap_analysis
                 }
 
                 float t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denominator;
-                if (t <= 0.1 || t >= 0.9)
+                if (t <= 0 || t >= 1)
                 {
                     Exists = false;
                     return;
                 }
 
                 float u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denominator;
-                if (u <= 0.1 || u >= 0.9)
+                if (u <= 0 || u >= 1)
                 {
                     Exists = false;
                     return;
@@ -96,6 +96,7 @@ namespace wmap_analysis
                     MessageBox.Show("2 files required");
                     return;
                 }
+
                 for (int i = 0; i < 2; i++)
                 {
                     List<PointF> points = new List<PointF>();
@@ -212,6 +213,16 @@ namespace wmap_analysis
             dataGridView1.CancelEdit();
             dataGridView1.Columns.Clear();
             dataGridView1.DataSource = null;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LblIntersectionCount_Click(object sender, EventArgs e)
+        {
+
         }
 
         private bool SamePoints (Point p1, Point p2)
