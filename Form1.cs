@@ -4,9 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace wmap_analysis
@@ -81,6 +79,7 @@ namespace wmap_analysis
         Line[] lines;
         List<Intersection> intersections;
         Dictionary<int, List<Intersection>> multiples = new Dictionary<int, List<Intersection>>();
+        Bitmap bitmap = new Bitmap(512, 512);
 
         public Form1()
         {
@@ -183,10 +182,7 @@ namespace wmap_analysis
         {
             int multiple = (int)dataGridView1[0, e.RowIndex].Value;
             int count = (int)dataGridView1[1, e.RowIndex].Value;
-            Bitmap bmp = new Bitmap(512, 512);
-            for (int i = 0; i < 512; i++)
-                for (int j = 0; j < 512; j++)
-                    bmp.SetPixel(i, j, Color.White);
+            Bitmap bmp = (Bitmap)bitmap.Clone();
             using (Graphics gr = Graphics.FromImage(bmp))
             {
                 using (Pen blackPen = new Pen(Color.Black, 1))
@@ -217,12 +213,18 @@ namespace wmap_analysis
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            for (int i = 0; i < 512; i++)
+                for (int j = 0; j < 512; j++)
+                    bitmap.SetPixel(i, j, Color.White);
         }
 
-        private void LblIntersectionCount_Click(object sender, EventArgs e)
+        private void loadImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (openFileDialog2.ShowDialog() == DialogResult.OK)
+            {
+                Image image = Image.FromFile(openFileDialog2.FileName);
+                bitmap = new Bitmap(image);
+            }
         }
 
         private bool SamePoints (Point p1, Point p2)

@@ -37,6 +37,8 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblIntersection = new System.Windows.Forms.Label();
+            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
+            this.loadImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -64,7 +66,8 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openFilesToolStripMenuItem});
+            this.openFilesToolStripMenuItem,
+            this.loadImageToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -84,7 +87,6 @@
             this.lblIntersectionCount.Size = new System.Drawing.Size(97, 13);
             this.lblIntersectionCount.TabIndex = 2;
             this.lblIntersectionCount.Text = "Initial Intersections:";
-            this.lblIntersectionCount.Click += new System.EventHandler(this.LblIntersectionCount_Click);
             // 
             // dataGridView1
             // 
@@ -109,6 +111,19 @@
             this.lblIntersection.Name = "lblIntersection";
             this.lblIntersection.Size = new System.Drawing.Size(0, 13);
             this.lblIntersection.TabIndex = 12;
+            // 
+            // openFileDialog2
+            // 
+            this.openFileDialog2.FileName = "openFileDialog2";
+            this.openFileDialog2.Filter = "Image files|*.bmp;*.jpg;*.gif;*.png;*.tif|All files|*.*";
+            this.openFileDialog2.Title = "Browse for Image File";
+            // 
+            // loadImageToolStripMenuItem
+            // 
+            this.loadImageToolStripMenuItem.Name = "loadImageToolStripMenuItem";
+            this.loadImageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadImageToolStripMenuItem.Text = "Load Image";
+            this.loadImageToolStripMenuItem.Click += new System.EventHandler(this.loadImageToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -144,6 +159,8 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label lblIntersection;
+        private System.Windows.Forms.OpenFileDialog openFileDialog2;
+        private System.Windows.Forms.ToolStripMenuItem loadImageToolStripMenuItem;
     }
 }
 
