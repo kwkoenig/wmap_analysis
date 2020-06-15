@@ -185,12 +185,12 @@ namespace wmap_analysis
             Bitmap bmp = (Bitmap)bitmap.Clone();
             using (Graphics gr = Graphics.FromImage(bmp))
             {
-                using (Pen blackPen = new Pen(Color.Black, 1))
+                using (Pen pen = cbLineColor.SelectedIndex == 0 ?  new Pen(Color.Black, 1) : new Pen(Color.White, 1))
                 {
                     foreach (Intersection I in multiples[multiple])
                     {
-                        gr.DrawLine(blackPen, I.Line1.Point1, I.Line1.Point2);
-                        gr.DrawLine(blackPen, I.Line2.Point1, I.Line2.Point2);
+                        gr.DrawLine(pen, I.Line1.Point1, I.Line1.Point2);
+                        gr.DrawLine(pen, I.Line2.Point1, I.Line2.Point2);
                     }
                 }
             }
@@ -216,6 +216,7 @@ namespace wmap_analysis
             for (int i = 0; i < 512; i++)
                 for (int j = 0; j < 512; j++)
                     bitmap.SetPixel(i, j, Color.White);
+            cbLineColor.SelectedIndex = 0;
         }
 
         private void loadImageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -224,7 +225,13 @@ namespace wmap_analysis
             {
                 Image image = Image.FromFile(openFileDialog2.FileName);
                 bitmap = new Bitmap(image);
+                pictureBox1.Image = bitmap;
             }
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Image = bitmap;
         }
 
         private bool SamePoints (Point p1, Point p2)
