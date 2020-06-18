@@ -65,7 +65,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(783, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1157, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -106,12 +106,12 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(12, 83);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(241, 486);
+            this.dataGridView1.Size = new System.Drawing.Size(169, 486);
             this.dataGridView1.TabIndex = 3;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(259, 57);
+            this.pictureBox1.Location = new System.Drawing.Point(636, 57);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(512, 512);
             this.pictureBox1.TabIndex = 4;
@@ -120,7 +120,7 @@
             // lblIntersection
             // 
             this.lblIntersection.AutoSize = true;
-            this.lblIntersection.Location = new System.Drawing.Point(259, 38);
+            this.lblIntersection.Location = new System.Drawing.Point(636, 38);
             this.lblIntersection.Name = "lblIntersection";
             this.lblIntersection.Size = new System.Drawing.Size(0, 13);
             this.lblIntersection.TabIndex = 12;
@@ -133,7 +133,7 @@
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(695, 32);
+            this.btnReset.Location = new System.Drawing.Point(1072, 32);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(75, 21);
             this.btnReset.TabIndex = 13;
@@ -148,7 +148,7 @@
             this.cbLineColor.Items.AddRange(new object[] {
             "Black",
             "White"});
-            this.cbLineColor.Location = new System.Drawing.Point(620, 32);
+            this.cbLineColor.Location = new System.Drawing.Point(997, 32);
             this.cbLineColor.Name = "cbLineColor";
             this.cbLineColor.Size = new System.Drawing.Size(57, 21);
             this.cbLineColor.TabIndex = 14;
@@ -156,7 +156,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(581, 36);
+            this.label1.Location = new System.Drawing.Point(958, 36);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 15;
@@ -204,7 +204,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(783, 584);
+            this.ClientSize = new System.Drawing.Size(1157, 584);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.nudMinRatio);
             this.Controls.Add(this.label1);
