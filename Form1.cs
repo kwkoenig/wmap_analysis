@@ -12,9 +12,9 @@ namespace wmap_analysis
     public partial class Form1 : Form
     {
         PointF[] points1, points2;
-        Line[] lines;
+        Line[] lines = null;
         List<Intersection> intersections;
-        Dictionary<int, List<Intersection>> multiples = new Dictionary<int, List<Intersection>>();
+        Dictionary<int, List<Intersection>> multiples;
         Bitmap bitmap = new Bitmap(512, 512);
 
         public Form1()
@@ -62,11 +62,12 @@ namespace wmap_analysis
         {
             int lineCount = points1.Length * points2.Length;
             intersections = new List<Intersection>();
+            multiples = new Dictionary<int, List<Intersection>>();
             for (int i = 0; i < lineCount - 1; i++)
             {
                 for (int j = i + 1; j < lineCount; j++)
                 {
-                    Intersection intersection = new Intersection(lines[i], lines[j], (float)0.1);
+                    Intersection intersection = new Intersection(lines[i], lines[j], Convert.ToSingle(nudMinRatio.Value));
                     if (intersection.Exists)
                         intersections.Add(intersection);
                 }
@@ -117,10 +118,6 @@ namespace wmap_analysis
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.DataSource = table;
             dataGridView1.Sort(dataGridView1.Columns[0], ListSortDirection.Descending);
-            DataGridViewButtonColumn btnCol = new DataGridViewButtonColumn();
-            btnCol.Text = "Draw";
-            btnCol.UseColumnTextForButtonValue = true;
-            dataGridView1.Columns.Add(btnCol);
             dataGridView1.CellClick += DataGridView1_CellClick;
         }
 
@@ -178,6 +175,12 @@ namespace wmap_analysis
         private void btnReset_Click(object sender, EventArgs e)
         {
             pictureBox1.Image = bitmap;
+        }
+
+        private void nudMinRatio_ValueChanged(object sender, EventArgs e)
+        {
+            if (lines != null)
+                GetIntersections();
         }
 
         private bool SamePoints (Point p1, Point p2)

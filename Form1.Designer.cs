@@ -42,9 +42,12 @@
             this.btnReset = new System.Windows.Forms.Button();
             this.cbLineColor = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.nudMinRatio = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMinRatio)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -101,9 +104,9 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 57);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 83);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(240, 512);
+            this.dataGridView1.Size = new System.Drawing.Size(241, 486);
             this.dataGridView1.TabIndex = 3;
             // 
             // pictureBox1
@@ -159,11 +162,51 @@
             this.label1.TabIndex = 15;
             this.label1.Text = "Lines:";
             // 
+            // nudMinRatio
+            // 
+            this.nudMinRatio.DecimalPlaces = 2;
+            this.nudMinRatio.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.nudMinRatio.Location = new System.Drawing.Point(72, 55);
+            this.nudMinRatio.Maximum = new decimal(new int[] {
+            99,
+            0,
+            0,
+            131072});
+            this.nudMinRatio.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.nudMinRatio.Name = "nudMinRatio";
+            this.nudMinRatio.Size = new System.Drawing.Size(51, 20);
+            this.nudMinRatio.TabIndex = 16;
+            this.nudMinRatio.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.nudMinRatio.ValueChanged += new System.EventHandler(this.nudMinRatio_ValueChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(16, 57);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(55, 13);
+            this.label2.TabIndex = 17;
+            this.label2.Text = "Min Ratio:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(783, 584);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.nudMinRatio);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cbLineColor);
             this.Controls.Add(this.btnReset);
@@ -181,6 +224,7 @@
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMinRatio)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -201,6 +245,8 @@
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.ComboBox cbLineColor;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown nudMinRatio;
+        private System.Windows.Forms.Label label2;
     }
 }
 

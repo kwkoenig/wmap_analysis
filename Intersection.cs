@@ -5,6 +5,9 @@ namespace wmap_analysis
 {
     public class Intersection
     {
+        static int counter = 0;
+
+        public int id { get; }
         public Line Line1 { get; }
         public Line Line2 { get; }
         public Point Point { get; }
@@ -12,6 +15,7 @@ namespace wmap_analysis
 
         public Intersection(Line line1, Line line2, float minRatio)
         {
+            this.id = ++counter;
             this.Line1 = line1;
             this.Line2 = line2;
 

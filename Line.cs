@@ -5,11 +5,15 @@ namespace wmap_analysis
 {
     public class Line
     {
+        static int counter = 0;
+
+        public int id { get; }
         public PointF Point1 { get; }
         public PointF Point2 { get; }
 
         public Line(PointF point1, PointF point2)
         {
+            this.id = ++counter;
             this.Point1 = point1;
             this.Point2 = point2;
         }
