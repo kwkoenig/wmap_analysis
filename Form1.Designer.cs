@@ -44,10 +44,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.nudMinRatio = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMinRatio)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -200,11 +202,20 @@
             this.label2.TabIndex = 17;
             this.label2.Text = "Min Ratio:";
             // 
+            // dataGridView2
+            // 
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Location = new System.Drawing.Point(187, 57);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.Size = new System.Drawing.Size(432, 512);
+            this.dataGridView2.TabIndex = 18;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1157, 584);
+            this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.nudMinRatio);
             this.Controls.Add(this.label1);
@@ -225,6 +236,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMinRatio)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -247,6 +259,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown nudMinRatio;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DataGridView dataGridView2;
     }
 }
 

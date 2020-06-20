@@ -96,12 +96,12 @@ namespace wmap_analysis
                         multiples[j].Add(intersections[k]);
                 }
             }
-            FillDataGrids();
+            FillDataGrid1();
         }
 
-        private void FillDataGrids()
+        private void FillDataGrid1()
         {
-            ResetDataGridView();
+            ResetDataGridView(1);
             DataTable table = new DataTable();
             table.Columns.Add("Multiple", typeof(int));
             table.Columns.Add("Count", typeof(int));
@@ -125,33 +125,66 @@ namespace wmap_analysis
         {
             int multiple = (int)dataGridView1[0, e.RowIndex].Value;
             int count = (int)dataGridView1[1, e.RowIndex].Value;
-            Bitmap bmp = (Bitmap)bitmap.Clone();
-            using (Graphics gr = Graphics.FromImage(bmp))
+            ResetDataGridView(2);
+            DataTable table = new DataTable();
+            table.Columns.Add("Intersection ID", typeof(int));
+            table.Columns.Add("Line ID", typeof(int));
+            table.Columns.Add("Draw", typeof(bool));
+
+            foreach (Intersection I in multiples[multiple])
             {
-                using (Pen pen = cbLineColor.SelectedIndex == 0 ?  new Pen(Color.Black, 1) : new Pen(Color.White, 1))
-                {
-                    foreach (Intersection I in multiples[multiple])
-                    {
-                        gr.DrawLine(pen, I.Line1.Point1, I.Line1.Point2);
-                        gr.DrawLine(pen, I.Line2.Point1, I.Line2.Point2);
-                    }
-                }
+                DataRow row = table.NewRow();
+                row["Intersection ID"] = I.id;
+                row["Line ID"] = I.Line1.id;
+                row["Draw"] = false;
+                table.Rows.Add(row);
+                row = table.NewRow();
+                row["Intersection ID"] = I.id;
+                row["Line ID"] = I.Line2.id;
+                row["Draw"] = false;
+                table.Rows.Add(row);
             }
-            pictureBox1.Image = bmp;
-            if (count == multiple)
-            {
-                Intersection I = multiples[multiple][0];
-                lblIntersection.Text = string.Format("Intersection at ({0}, {1})", I.Point.X, I.Point.Y);
-            }
-            else
-                lblIntersection.Text = string.Empty;
+            table.AcceptChanges();
+            dataGridView2.AutoGenerateColumns = true;
+            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridView2.AllowUserToAddRows = false;
+            dataGridView2.DataSource = table;
+            dataGridView2.Sort(dataGridView2.Columns[1], ListSortDirection.Descending);
         }
 
-        private void ResetDataGridView()
+
+        //private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    int multiple = (int)dataGridView1[0, e.RowIndex].Value;
+        //    int count = (int)dataGridView1[1, e.RowIndex].Value;
+        //    Bitmap bmp = (Bitmap)bitmap.Clone();
+        //    using (Graphics gr = Graphics.FromImage(bmp))
+        //    {
+        //        using (Pen pen = cbLineColor.SelectedIndex == 0 ?  new Pen(Color.Black, 1) : new Pen(Color.White, 1))
+        //        {
+        //            foreach (Intersection I in multiples[multiple])
+        //            {
+        //                gr.DrawLine(pen, I.Line1.Point1, I.Line1.Point2);
+        //                gr.DrawLine(pen, I.Line2.Point1, I.Line2.Point2);
+        //            }
+        //        }
+        //    }
+        //    pictureBox1.Image = bmp;
+        //    if (count == multiple)
+        //    {
+        //        Intersection I = multiples[multiple][0];
+        //        lblIntersection.Text = string.Format("Intersection at ({0}, {1})", I.Point.X, I.Point.Y);
+        //    }
+        //    else
+        //        lblIntersection.Text = string.Empty;
+        //}
+
+        private void ResetDataGridView(int id)
         {
-            dataGridView1.CancelEdit();
-            dataGridView1.Columns.Clear();
-            dataGridView1.DataSource = null;
+            DataGridView dataGridView = id == 1 ? dataGridView1 : dataGridView2;
+            dataGridView.CancelEdit();
+            dataGridView.Columns.Clear();
+            dataGridView.DataSource = null;
         }
 
         private void Form1_Load(object sender, EventArgs e)
