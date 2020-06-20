@@ -123,25 +123,24 @@ namespace wmap_analysis
 
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0)
+                return;
             int multiple = (int)dataGridView1[0, e.RowIndex].Value;
             int count = (int)dataGridView1[1, e.RowIndex].Value;
             ResetDataGridView(2);
             DataTable table = new DataTable();
             table.Columns.Add("Intersection ID", typeof(int));
             table.Columns.Add("Line ID", typeof(int));
-            table.Columns.Add("Draw", typeof(bool));
 
             foreach (Intersection I in multiples[multiple])
             {
                 DataRow row = table.NewRow();
                 row["Intersection ID"] = I.id;
                 row["Line ID"] = I.Line1.id;
-                row["Draw"] = false;
                 table.Rows.Add(row);
                 row = table.NewRow();
                 row["Intersection ID"] = I.id;
                 row["Line ID"] = I.Line2.id;
-                row["Draw"] = false;
                 table.Rows.Add(row);
             }
             table.AcceptChanges();
@@ -150,6 +149,24 @@ namespace wmap_analysis
             dataGridView2.AllowUserToAddRows = false;
             dataGridView2.DataSource = table;
             dataGridView2.Sort(dataGridView2.Columns[1], ListSortDirection.Descending);
+            dataGridView2.CellContentClick += DataGridView2_CellClick;
+
+            DataGridViewCheckBoxColumn chk = new DataGridViewCheckBoxColumn();
+            chk.HeaderText = "Draw";
+            chk.Name = "chk";
+            chk.TrueValue = true;
+            dataGridView2.Columns.Add(chk);
+
+        }
+
+        private void DataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            DataGridViewCheckBoxCell checkbox = (DataGridViewCheckBoxCell)dataGridView2.CurrentCell;
+            bool isChecked = (bool)checkbox.EditedFormattedValue;
+
         }
 
 
