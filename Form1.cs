@@ -166,7 +166,15 @@ namespace wmap_analysis
 
             DataGridViewCheckBoxCell checkbox = (DataGridViewCheckBoxCell)dataGridView2.CurrentCell;
             bool isChecked = (bool)checkbox.EditedFormattedValue;
-
+            int LineId = (int)dataGridView2[1, e.RowIndex].Value;
+            foreach (DataGridViewRow row in dataGridView2.Rows)
+            {
+                if ((int)row.Cells["Line ID"].Value == LineId)
+                {
+                    DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells[2];
+                    chk.Value = isChecked;
+                }
+            }
         }
 
 
