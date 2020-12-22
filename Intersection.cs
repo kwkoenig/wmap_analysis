@@ -5,9 +5,7 @@ namespace wmap_analysis
 {
     public class Intersection
     {
-        static int counter = 0;
-
-        public int id { get; }
+        public int id { get; set; }
         public Line Line1 { get; }
         public Line Line2 { get; }
         public Point Point { get; }
@@ -15,7 +13,6 @@ namespace wmap_analysis
 
         public Intersection(Line line1, Line line2, float minRatio)
         {
-            this.id = ++counter;
             this.Line1 = line1;
             this.Line2 = line2;
 
@@ -68,6 +65,11 @@ namespace wmap_analysis
             ratio = distanceToIntersection / Line2.Length();
             if (ratio < minRatio || ratio > 1 - minRatio)
                 Exists = false;
+        }
+
+        public bool Equals(Intersection i)
+        {
+            return this.Point.X == i.Point.X && this.Point.Y == i.Point.Y;
         }
     }
 }

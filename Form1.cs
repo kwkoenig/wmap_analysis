@@ -14,6 +14,7 @@ namespace wmap_analysis
         PointF[] points1, points2;
         Line[] lines = null;
         List<Intersection> intersections;
+        List<IntersectionGroup> intersectionGroups;
         Dictionary<int, List<Intersection>> multiples;
         Bitmap bitmap = new Bitmap(512, 512);
 
@@ -56,8 +57,39 @@ namespace wmap_analysis
                     lines[l++] = new Line(point1, point2);
 
             GetIntersections();
+            GetIntersectionGroups();
         }
 
+        private void GetIntersectionGroups()
+        {
+            intersectionGroups = new List<IntersectionGroup>();
+            for (int i = 0; i < intersections.Count; i++)
+            {
+                IntersectionGroup group = null;
+                for (int j = intersections.Count-1; j > i; j--)
+                {
+                    if (intersections[i].Equals(intersections[j]))
+                    {
+                        if (group == null)
+                            group = new IntersectionGroup(intersections[j]);
+                        else
+                            group.Add(intersections[j]);
+                        intersections.RemoveAt(j);
+                    }
+                }
+                if (group != null && group.LineIds.Count > 2)
+                    intersectionGroups.Add(group);
+            }
+            if (intersectionGroups.Count > 0)
+            {
+                intersectionGroups.Sort((a, b) =>
+                {
+                    return b.LineIds.Count - a.LineIds.Count;
+                });
+
+            }
+
+        }
         private void GetIntersections()
         {
             int lineCount = points1.Length * points2.Length;
@@ -69,7 +101,10 @@ namespace wmap_analysis
                 {
                     Intersection intersection = new Intersection(lines[i], lines[j], Convert.ToSingle(nudMinRatio.Value));
                     if (intersection.Exists)
+                    {
+                        intersection.id = intersections.Count;
                         intersections.Add(intersection);
+                    }
                 }
             }
             intersections.Sort((a, b) =>
@@ -121,43 +156,43 @@ namespace wmap_analysis
             dataGridView1.CellClick += DataGridView1_CellClick;
         }
 
-        private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0)
-                return;
-            int multiple = (int)dataGridView1[0, e.RowIndex].Value;
-            int count = (int)dataGridView1[1, e.RowIndex].Value;
-            ResetDataGridView(2);
-            DataTable table = new DataTable();
-            table.Columns.Add("Intersection ID", typeof(int));
-            table.Columns.Add("Line ID", typeof(int));
+        //private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        //{
+        //    if (e.RowIndex < 0)
+        //        return;
+        //    int multiple = (int)dataGridView1[0, e.RowIndex].Value;
+        //    int count = (int)dataGridView1[1, e.RowIndex].Value;
+        //    ResetDataGridView(2);
+        //    DataTable table = new DataTable();
+        //    table.Columns.Add("Intersection ID", typeof(int));
+        //    table.Columns.Add("Line ID", typeof(int));
 
-            foreach (Intersection I in multiples[multiple])
-            {
-                DataRow row = table.NewRow();
-                row["Intersection ID"] = I.id;
-                row["Line ID"] = I.Line1.id;
-                table.Rows.Add(row);
-                row = table.NewRow();
-                row["Intersection ID"] = I.id;
-                row["Line ID"] = I.Line2.id;
-                table.Rows.Add(row);
-            }
-            table.AcceptChanges();
-            dataGridView2.AutoGenerateColumns = true;
-            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridView2.AllowUserToAddRows = false;
-            dataGridView2.DataSource = table;
-            dataGridView2.Sort(dataGridView2.Columns[1], ListSortDirection.Descending);
-            dataGridView2.CellContentClick += DataGridView2_CellClick;
+        //    foreach (Intersection I in multiples[multiple])
+        //    {
+        //        DataRow row = table.NewRow();
+        //        row["Intersection ID"] = I.id;
+        //        row["Line ID"] = I.Line1.id;
+        //        table.Rows.Add(row);
+        //        row = table.NewRow();
+        //        row["Intersection ID"] = I.id;
+        //        row["Line ID"] = I.Line2.id;
+        //        table.Rows.Add(row);
+        //    }
+        //    table.AcceptChanges();
+        //    dataGridView2.AutoGenerateColumns = true;
+        //    dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+        //    dataGridView2.AllowUserToAddRows = false;
+        //    dataGridView2.DataSource = table;
+        //    dataGridView2.Sort(dataGridView2.Columns[1], ListSortDirection.Descending);
+        //    dataGridView2.CellContentClick += DataGridView2_CellClick;
 
-            DataGridViewCheckBoxColumn chk = new DataGridViewCheckBoxColumn();
-            chk.HeaderText = "Draw";
-            chk.Name = "chk";
-            chk.TrueValue = true;
-            dataGridView2.Columns.Add(chk);
+        //    DataGridViewCheckBoxColumn chk = new DataGridViewCheckBoxColumn();
+        //    chk.HeaderText = "Draw";
+        //    chk.Name = "chk";
+        //    chk.TrueValue = true;
+        //    dataGridView2.Columns.Add(chk);
 
-        }
+        //}
 
         private void DataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -166,43 +201,57 @@ namespace wmap_analysis
 
             DataGridViewCheckBoxCell checkbox = (DataGridViewCheckBoxCell)dataGridView2.CurrentCell;
             bool isChecked = (bool)checkbox.EditedFormattedValue;
-            int LineId = (int)dataGridView2[1, e.RowIndex].Value;
-            foreach (DataGridViewRow row in dataGridView2.Rows)
+            int IntersectionId = (int)dataGridView2[0, e.RowIndex].Value;
+            //foreach (DataGridViewRow row in dataGridView2.Rows)
+            //{
+            //    if ((int)row.Cells["Line ID"].Value == LineId)
+            //    {
+            //        DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells[2];
+            //        chk.Value = isChecked;
+            //    }
+            //}
+
+            if (isChecked)
             {
-                if ((int)row.Cells["Line ID"].Value == LineId)
+                Intersection I = intersections[IntersectionId];
+                Bitmap bmp = (Bitmap)bitmap.Clone();
+                using (Graphics gr = Graphics.FromImage(bmp))
                 {
-                    DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells[2];
-                    chk.Value = isChecked;
+                    using (Pen pen = cbLineColor.SelectedIndex == 0 ? new Pen(Color.Black, 1) : new Pen(Color.White, 1))
+                    {
+                        gr.DrawLine(pen, I.Line1.Point1, I.Line1.Point2);
+                        gr.DrawLine(pen, I.Line2.Point1, I.Line2.Point2);
+                    }
                 }
+                pictureBox1.Image = bmp;
             }
         }
 
-
-        //private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        //{
-        //    int multiple = (int)dataGridView1[0, e.RowIndex].Value;
-        //    int count = (int)dataGridView1[1, e.RowIndex].Value;
-        //    Bitmap bmp = (Bitmap)bitmap.Clone();
-        //    using (Graphics gr = Graphics.FromImage(bmp))
-        //    {
-        //        using (Pen pen = cbLineColor.SelectedIndex == 0 ?  new Pen(Color.Black, 1) : new Pen(Color.White, 1))
-        //        {
-        //            foreach (Intersection I in multiples[multiple])
-        //            {
-        //                gr.DrawLine(pen, I.Line1.Point1, I.Line1.Point2);
-        //                gr.DrawLine(pen, I.Line2.Point1, I.Line2.Point2);
-        //            }
-        //        }
-        //    }
-        //    pictureBox1.Image = bmp;
-        //    if (count == multiple)
-        //    {
-        //        Intersection I = multiples[multiple][0];
-        //        lblIntersection.Text = string.Format("Intersection at ({0}, {1})", I.Point.X, I.Point.Y);
-        //    }
-        //    else
-        //        lblIntersection.Text = string.Empty;
-        //}
+        private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int multiple = (int)dataGridView1[0, e.RowIndex].Value;
+            int count = (int)dataGridView1[1, e.RowIndex].Value;
+            Bitmap bmp = (Bitmap)bitmap.Clone();
+            using (Graphics gr = Graphics.FromImage(bmp))
+            {
+                using (Pen pen = cbLineColor.SelectedIndex == 0 ? new Pen(Color.Black, 1) : new Pen(Color.White, 1))
+                {
+                    foreach (Intersection I in multiples[multiple])
+                    {
+                        gr.DrawLine(pen, I.Line1.Point1, I.Line1.Point2);
+                        gr.DrawLine(pen, I.Line2.Point1, I.Line2.Point2);
+                    }
+                }
+            }
+            pictureBox1.Image = bmp;
+            if (count == multiple)
+            {
+                Intersection I = multiples[multiple][0];
+                lblIntersection.Text = string.Format("Intersection at ({0}, {1})", I.Point.X, I.Point.Y);
+            }
+            else
+                lblIntersection.Text = string.Empty;
+        }
 
         private void ResetDataGridView(int id)
         {
