@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace wmap_analysis
 {
@@ -51,100 +52,75 @@ namespace wmap_analysis
             }
             int lineCount = points1.Length * points2.Length;
             lines = new Line[lineCount];
-            int l = 0;
-            foreach (PointF point1 in points1)
-                foreach (PointF point2 in points2)
-                    lines[l++] = new Line(point1, point2);
+            int id = -1;
+
+            for (int i = 0, len1 = points1.Length; i < len1; i++)
+                for (int j = 0, len2 = points2.Length; j < len2; j++)
+                    lines[++id] = new Line(points1[i], points2[j], id, i, j);
 
             GetIntersections();
             GetIntersectionGroups();
+            FillDataGrid1();
         }
 
         private void GetIntersectionGroups()
         {
             intersectionGroups = new List<IntersectionGroup>();
-            for (int i = 0; i < intersections.Count; i++)
+            IntersectionGroup group = null;
+
+            int count = intersections.Count;
+            lblIntersectionCount.Text = "Initial Intersections: " + count.ToString();
+
+            for (int i = 0; i < count - 1; i++)
             {
-                IntersectionGroup group = null;
-                for (int j = intersections.Count-1; j > i; j--)
+                for (int j = i + 1; j < count; j++)
                 {
-                    if (intersections[i].Equals(intersections[j]))
+                    if (!intersections[i].Equals(intersections[j]))
                     {
-                        if (group == null)
-                            group = new IntersectionGroup(intersections[j]);
-                        else
-                            group.Add(intersections[j]);
-                        intersections.RemoveAt(j);
+                        i = j;
+                        break;
                     }
+                    if (j == i + 1)
+                    {
+                        group = new IntersectionGroup(intersections[i]);
+                        intersectionGroups.Add(group);
+                    }
+                    group.Add(intersections[j]);
                 }
-                if (group != null && group.LineIds.Count > 2)
-                    intersectionGroups.Add(group);
             }
-            if (intersectionGroups.Count > 0)
-            {
-                intersectionGroups.Sort((a, b) =>
-                {
-                    return b.LineIds.Count - a.LineIds.Count;
-                });
-
-            }
-
+            intersectionGroups = intersectionGroups.OrderByDescending(g => g.LineIds.Count).ToList<IntersectionGroup>();
         }
         private void GetIntersections()
         {
             int lineCount = points1.Length * points2.Length;
-            intersections = new List<Intersection>();
+            List<Intersection> temp = new List<Intersection>();
             multiples = new Dictionary<int, List<Intersection>>();
             for (int i = 0; i < lineCount - 1; i++)
             {
                 for (int j = i + 1; j < lineCount; j++)
                 {
+                    if (lines[i].i == lines[j].i || lines[i].j == lines[j].j)
+                        continue;
                     Intersection intersection = new Intersection(lines[i], lines[j], Convert.ToSingle(nudMinRatio.Value));
                     if (intersection.Exists)
                     {
-                        intersection.id = intersections.Count;
-                        intersections.Add(intersection);
+                        intersection.id = temp.Count;
+                        temp.Add(intersection);
                     }
                 }
             }
-            intersections.Sort((a, b) =>
-            {
-                int ret = a.Point.X.CompareTo(b.Point.X);
-                if (ret == 0) ret = a.Point.Y.CompareTo(b.Point.Y);
-                return ret;
-            });
-            int count = intersections.Count;
-            lblIntersectionCount.Text = "Initial Intersections: " + count.ToString();
-
-            for (int i = 0, j; i < count; i += j)
-            {
-                for (j = 1; i + j < count; j++)
-                {
-                    if (!SamePoints(intersections[i].Point, intersections[i + j].Point))
-                        break;
-                }
-                if (j > 1)
-                {
-                    if (!multiples.ContainsKey(j))
-                        multiples.Add(j, new List<Intersection>());
-                    for (int k = i; k < i + j; k++)
-                        multiples[j].Add(intersections[k]);
-                }
-            }
-            FillDataGrid1();
+            intersections = temp.OrderBy(i => i.Point.X).ThenBy(i => i.Point.Y).ToList<Intersection>();
         }
 
         private void FillDataGrid1()
         {
             ResetDataGridView(1);
             DataTable table = new DataTable();
-            table.Columns.Add("Multiple", typeof(int));
-            table.Columns.Add("Count", typeof(int));
-            foreach (KeyValuePair<int, List<Intersection>> multiple in multiples)
+            table.Columns.Add("Lines", typeof(int));
+            foreach (IntersectionGroup group in intersectionGroups)
             {
                 DataRow row = table.NewRow();
-                row["Multiple"] = multiple.Key;
-                row["Count"] = multiple.Value.Count;
+                row["Lines"] = group.LineIds.Count;
                 table.Rows.Add(row);
             }
             table.AcceptChanges();
@@ -152,8 +128,8 @@ namespace wmap_analysis
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.DataSource = table;
-            dataGridView1.Sort(dataGridView1.Columns[0], ListSortDirection.Descending);
             dataGridView1.CellClick += DataGridView1_CellClick;
+
         }
 
         //private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -229,28 +205,54 @@ namespace wmap_analysis
 
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            int multiple = (int)dataGridView1[0, e.RowIndex].Value;
-            int count = (int)dataGridView1[1, e.RowIndex].Value;
+            int row = e.RowIndex;
+            if (row < 0)
+                return;
             Bitmap bmp = (Bitmap)bitmap.Clone();
             using (Graphics gr = Graphics.FromImage(bmp))
             {
                 using (Pen pen = cbLineColor.SelectedIndex == 0 ? new Pen(Color.Black, 1) : new Pen(Color.White, 1))
                 {
-                    foreach (Intersection I in multiples[multiple])
+                    foreach (int i in intersectionGroups[row].LineIds)
                     {
-                        gr.DrawLine(pen, I.Line1.Point1, I.Line1.Point2);
-                        gr.DrawLine(pen, I.Line2.Point1, I.Line2.Point2);
+                        gr.DrawLine(pen, lines[i].Point1, lines[i].Point2);
                     }
                 }
             }
             pictureBox1.Image = bmp;
-            if (count == multiple)
+            lblIntersection.Text = string.Format("Intersection at ({0}, {1})", intersectionGroups[row].Intersection.X, intersectionGroups[row].Intersection.Y);
+
+            ResetDataGridView(2);
+            DataTable table = new DataTable();
+            table.Columns.Add("Line ID", typeof(int));
+            table.Columns.Add("x1", typeof(int));
+            table.Columns.Add("y1", typeof(int));
+            table.Columns.Add("x2", typeof(int));
+            table.Columns.Add("y2", typeof(int));
+            table.AcceptChanges();
+            foreach (int i in intersectionGroups[row].LineIds)
             {
-                Intersection I = multiples[multiple][0];
-                lblIntersection.Text = string.Format("Intersection at ({0}, {1})", I.Point.X, I.Point.Y);
+                DataRow newRow = table.NewRow();
+                newRow["Line ID"] = i;
+                newRow["x1"] = lines[i].Point1.X;
+                newRow["y1"] = lines[i].Point1.Y;
+                newRow["x2"] = lines[i].Point2.X;
+                newRow["y2"] = lines[i].Point2.Y;
+                table.Rows.Add(newRow);
             }
-            else
-                lblIntersection.Text = string.Empty;
+            table.AcceptChanges();
+            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridView2.AllowUserToAddRows = false;
+            dataGridView2.DataSource = table.DefaultView;
+            //dataGridView2.CellContentClick += DataGridView2_CellClick;
+            dataGridView2.Columns[0].Visible = false;
+
+            DataGridViewCheckBoxColumn chk = new DataGridViewCheckBoxColumn();
+            chk.HeaderText = "Draw";
+            chk.Name = "chk";
+            chk.TrueValue = true;
+            dataGridView2.Columns.Add(chk);
+
         }
 
         private void ResetDataGridView(int id)
@@ -288,11 +290,6 @@ namespace wmap_analysis
         {
             if (lines != null)
                 GetIntersections();
-        }
-
-        private bool SamePoints (Point p1, Point p2)
-        {
-            return (p1.X == p2.X && p1.Y == p2.Y);
         }
     }
 }

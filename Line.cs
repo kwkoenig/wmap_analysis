@@ -5,17 +5,19 @@ namespace wmap_analysis
 {
     public class Line
     {
-        static int counter = 0;
-
         public int id { get; }
+        public int i { get; }   // index of first point to form line
+        public int j { get; }   // index of second point to form line
         public PointF Point1 { get; }
         public PointF Point2 { get; }
 
-        public Line(PointF point1, PointF point2)
+        public Line(PointF point1, PointF point2, int id, int i, int j)
         {
-            this.id = ++counter;
             this.Point1 = point1;
             this.Point2 = point2;
+            this.id = id;
+            this.i = i;
+            this.j = j;
         }
 
         public float Length()
