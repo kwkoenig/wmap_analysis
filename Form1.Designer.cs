@@ -83,14 +83,14 @@
             // openFilesToolStripMenuItem
             // 
             this.openFilesToolStripMenuItem.Name = "openFilesToolStripMenuItem";
-            this.openFilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openFilesToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.openFilesToolStripMenuItem.Text = "Open Files";
             this.openFilesToolStripMenuItem.Click += new System.EventHandler(this.OpenFilesToolStripMenuItem_Click);
             // 
             // loadImageToolStripMenuItem
             // 
             this.loadImageToolStripMenuItem.Name = "loadImageToolStripMenuItem";
-            this.loadImageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadImageToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.loadImageToolStripMenuItem.Text = "Load Image";
             this.loadImageToolStripMenuItem.Click += new System.EventHandler(this.loadImageToolStripMenuItem_Click);
             // 
@@ -108,7 +108,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(12, 83);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(169, 486);
+            this.dataGridView1.Size = new System.Drawing.Size(122, 486);
             this.dataGridView1.TabIndex = 3;
             // 
             // pictureBox1
@@ -205,9 +205,9 @@
             // dataGridView2
             // 
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(187, 57);
+            this.dataGridView2.Location = new System.Drawing.Point(140, 57);
             this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(267, 510);
+            this.dataGridView2.Size = new System.Drawing.Size(314, 510);
             this.dataGridView2.TabIndex = 18;
             // 
             // Form1

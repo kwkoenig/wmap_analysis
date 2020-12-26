@@ -132,75 +132,39 @@ namespace wmap_analysis
 
         }
 
-        //private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        //{
-        //    if (e.RowIndex < 0)
-        //        return;
-        //    int multiple = (int)dataGridView1[0, e.RowIndex].Value;
-        //    int count = (int)dataGridView1[1, e.RowIndex].Value;
-        //    ResetDataGridView(2);
-        //    DataTable table = new DataTable();
-        //    table.Columns.Add("Intersection ID", typeof(int));
-        //    table.Columns.Add("Line ID", typeof(int));
-
-        //    foreach (Intersection I in multiples[multiple])
-        //    {
-        //        DataRow row = table.NewRow();
-        //        row["Intersection ID"] = I.id;
-        //        row["Line ID"] = I.Line1.id;
-        //        table.Rows.Add(row);
-        //        row = table.NewRow();
-        //        row["Intersection ID"] = I.id;
-        //        row["Line ID"] = I.Line2.id;
-        //        table.Rows.Add(row);
-        //    }
-        //    table.AcceptChanges();
-        //    dataGridView2.AutoGenerateColumns = true;
-        //    dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-        //    dataGridView2.AllowUserToAddRows = false;
-        //    dataGridView2.DataSource = table;
-        //    dataGridView2.Sort(dataGridView2.Columns[1], ListSortDirection.Descending);
-        //    dataGridView2.CellContentClick += DataGridView2_CellClick;
-
-        //    DataGridViewCheckBoxColumn chk = new DataGridViewCheckBoxColumn();
-        //    chk.HeaderText = "Draw";
-        //    chk.Name = "chk";
-        //    chk.TrueValue = true;
-        //    dataGridView2.Columns.Add(chk);
-
-        //}
-
         private void DataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0)
+            if (e.RowIndex < 0 || e.ColumnIndex != 5)
                 return;
-
-            DataGridViewCheckBoxCell checkbox = (DataGridViewCheckBoxCell)dataGridView2.CurrentCell;
-            bool isChecked = (bool)checkbox.EditedFormattedValue;
-            int IntersectionId = (int)dataGridView2[0, e.RowIndex].Value;
-            //foreach (DataGridViewRow row in dataGridView2.Rows)
-            //{
-            //    if ((int)row.Cells["Line ID"].Value == LineId)
-            //    {
-            //        DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)row.Cells[2];
-            //        chk.Value = isChecked;
-            //    }
-            //}
-
-            if (isChecked)
+            Bitmap bmp = (Bitmap)bitmap.Clone();
+            using (Graphics gr = Graphics.FromImage(bmp))
             {
-                Intersection I = intersections[IntersectionId];
-                Bitmap bmp = (Bitmap)bitmap.Clone();
-                using (Graphics gr = Graphics.FromImage(bmp))
+                using (Pen pen = cbLineColor.SelectedIndex == 0 ? new Pen(Color.Black, 1) : new Pen(Color.White, 1))
                 {
-                    using (Pen pen = cbLineColor.SelectedIndex == 0 ? new Pen(Color.Black, 1) : new Pen(Color.White, 1))
+                    foreach (DataGridViewRow r in dataGridView2.Rows)
                     {
-                        gr.DrawLine(pen, I.Line1.Point1, I.Line1.Point2);
-                        gr.DrawLine(pen, I.Line2.Point1, I.Line2.Point2);
+                        bool drawLine = false;
+                        bool isChecked = (bool)r.Cells[5].Value;
+                        if (r.Index == e.RowIndex)
+                        {
+                            if (!isChecked)
+                            {
+                                drawLine = true;
+                            }
+                        }
+                        else if (isChecked)
+                        {
+                            drawLine = true;
+                        }
+                        if (drawLine)
+                        {
+                            int lineId = (int)r.Cells[0].Value;
+                            gr.DrawLine(pen, lines[lineId].Point1, lines[lineId].Point2);
+                        }
                     }
                 }
-                pictureBox1.Image = bmp;
             }
+            pictureBox1.Image = bmp;
         }
 
         private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -243,15 +207,21 @@ namespace wmap_analysis
             table.AcceptChanges();
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView2.AllowUserToAddRows = false;
-            dataGridView2.DataSource = table.DefaultView;
-            //dataGridView2.CellContentClick += DataGridView2_CellClick;
-            dataGridView2.Columns[0].Visible = false;
+            DataView view = table.DefaultView;
+            view.Sort = "Line ID";
+            dataGridView2.DataSource = view;
+            dataGridView2.CellContentClick += DataGridView2_CellClick;
 
             DataGridViewCheckBoxColumn chk = new DataGridViewCheckBoxColumn();
             chk.HeaderText = "Draw";
             chk.Name = "chk";
             chk.TrueValue = true;
             dataGridView2.Columns.Add(chk);
+
+            foreach (DataGridViewRow r in dataGridView2.Rows)
+            {
+                r.Cells[5].Value = true;
+            }
 
         }
 
