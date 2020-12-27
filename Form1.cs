@@ -208,7 +208,6 @@ namespace wmap_analysis
             DataView view = table.DefaultView;
             view.Sort = "Line ID";
             dataGridView2.DataSource = view;
-            dataGridView2.CellContentClick += DataGridView2_CellClick;
 
             DataGridViewCheckBoxColumn chk = new DataGridViewCheckBoxColumn();
             chk.HeaderText = "Draw";
@@ -221,6 +220,9 @@ namespace wmap_analysis
             {
                 r.Cells[5].Value = true;
             }
+
+            dataGridView2.CellContentClick -= DataGridView2_CellClick;
+            dataGridView2.CellContentClick += DataGridView2_CellClick;
         }
 
 
