@@ -54,6 +54,9 @@ namespace wmap_analysis
             intersection.Y = (int)Math.Round(y1 + t * (y2 - y1));
             this.Point = intersection;
 
+            if (minRatio == 0.0)
+                return;
+
             float distanceToIntersection = Convert.ToSingle(Math.Sqrt(Math.Pow(x1 - intersection.X, 2) + Math.Pow(y1 - intersection.Y, 2)));
             float ratio = distanceToIntersection / Line1.Length();
             if (ratio < minRatio || ratio > 1 - minRatio)

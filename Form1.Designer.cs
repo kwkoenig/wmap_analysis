@@ -178,11 +178,6 @@
             0,
             0,
             131072});
-            this.nudMinRatio.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            131072});
             this.nudMinRatio.Name = "nudMinRatio";
             this.nudMinRatio.Size = new System.Drawing.Size(51, 20);
             this.nudMinRatio.TabIndex = 16;

@@ -16,7 +16,6 @@ namespace wmap_analysis
         Line[] lines = null;
         List<Intersection> intersections;
         List<IntersectionGroup> intersectionGroups;
-        Dictionary<int, List<Intersection>> multiples;
         Bitmap bitmap = new Bitmap(512, 512);
 
         public Form1()
@@ -92,14 +91,12 @@ namespace wmap_analysis
         }
         private void GetIntersections()
         {
-            int lineCount = points1.Length * points2.Length;
             List<Intersection> temp = new List<Intersection>();
-            multiples = new Dictionary<int, List<Intersection>>();
-            for (int i = 0; i < lineCount - 1; i++)
+            for (int i = 0, lineCount = lines.Length; i < lineCount - 1; i++)
             {
                 for (int j = i + 1; j < lineCount; j++)
                 {
-                    if (lines[i].i == lines[j].i || lines[i].j == lines[j].j)
+                    if (lines[i].index1 == lines[j].index1 || lines[i].index2 == lines[j].index2)
                         continue;
                     Intersection intersection = new Intersection(lines[i], lines[j], Convert.ToSingle(nudMinRatio.Value));
                     if (intersection.Exists)
@@ -147,6 +144,7 @@ namespace wmap_analysis
                         bool isChecked = (bool)r.Cells[5].Value;
                         if (r.Index == e.RowIndex)
                         {
+                            dataGridView2.CurrentCell = dataGridView2.Rows[e.RowIndex].Cells[0];
                             if (!isChecked)
                             {
                                 drawLine = true;
@@ -216,14 +214,15 @@ namespace wmap_analysis
             chk.HeaderText = "Draw";
             chk.Name = "chk";
             chk.TrueValue = true;
+            chk.FalseValue = false;
             dataGridView2.Columns.Add(chk);
 
             foreach (DataGridViewRow r in dataGridView2.Rows)
             {
                 r.Cells[5].Value = true;
             }
-
         }
+
 
         private void ResetDataGridView(int id)
         {
