@@ -54,6 +54,12 @@ namespace wmap_analysis
             intersection.Y = (int)Math.Round(y1 + t * (y2 - y1));
             this.Point = intersection;
 
+            if (intersection == line1.Point1 || intersection == line1.Point2 || intersection == line2.Point1 || intersection == line2.Point2)
+            {
+                Exists = false;
+                return;
+            }
+
             if (minRatio == 0.0)
                 return;
 
