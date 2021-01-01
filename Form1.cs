@@ -66,6 +66,7 @@ namespace wmap_analysis
         {
             intersectionGroups = new List<IntersectionGroup>();
             IntersectionGroup group = null;
+            int tolerance = Convert.ToInt32(nudTolerance.Value);
 
             int count = intersections.Count;
             lblIntersectionCount.Text = "Initial Intersections: " + count.ToString();
@@ -74,7 +75,7 @@ namespace wmap_analysis
             {
                 for (int j = i + 1; j < count; j++)
                 {
-                    if (!intersections[i].Equals(intersections[j]))
+                    if (!intersections[i].Equals(intersections[j], tolerance))
                     {
                         i = j;
                         break;

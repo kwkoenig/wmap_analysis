@@ -45,11 +45,14 @@
             this.nudMinRatio = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.label3 = new System.Windows.Forms.Label();
+            this.nudTolerance = new System.Windows.Forms.NumericUpDown();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMinRatio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTolerance)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -106,9 +109,9 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 83);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 112);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(122, 486);
+            this.dataGridView1.Size = new System.Drawing.Size(122, 457);
             this.dataGridView1.TabIndex = 3;
             // 
             // pictureBox1
@@ -172,7 +175,7 @@
             0,
             0,
             131072});
-            this.nudMinRatio.Location = new System.Drawing.Point(72, 55);
+            this.nudMinRatio.Location = new System.Drawing.Point(72, 86);
             this.nudMinRatio.Maximum = new decimal(new int[] {
             99,
             0,
@@ -191,7 +194,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 57);
+            this.label2.Location = new System.Drawing.Point(14, 88);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(55, 13);
             this.label2.TabIndex = 17;
@@ -205,11 +208,34 @@
             this.dataGridView2.Size = new System.Drawing.Size(314, 510);
             this.dataGridView2.TabIndex = 18;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 59);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(58, 13);
+            this.label3.TabIndex = 20;
+            this.label3.Text = "Tolerance:";
+            // 
+            // nudTolerance
+            // 
+            this.nudTolerance.Location = new System.Drawing.Point(72, 57);
+            this.nudTolerance.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudTolerance.Name = "nudTolerance";
+            this.nudTolerance.Size = new System.Drawing.Size(51, 20);
+            this.nudTolerance.TabIndex = 19;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1157, 584);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.nudTolerance);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.nudMinRatio);
@@ -232,6 +258,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMinRatio)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTolerance)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -255,6 +282,8 @@
         private System.Windows.Forms.NumericUpDown nudMinRatio;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown nudTolerance;
     }
 }
 

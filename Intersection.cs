@@ -76,9 +76,15 @@ namespace wmap_analysis
                 Exists = false;
         }
 
-        public bool Equals(Intersection i)
+        public bool Equals(Intersection i, int tolerance)
         {
-            return this.Point.X == i.Point.X && this.Point.Y == i.Point.Y;
+            int dx = this.Point.X - i.Point.X;
+            if (dx < 0)
+                dx = -dx;
+            int dy = this.Point.Y - i.Point.Y;
+            if (dy < 0)
+                dy = -dy;
+            return dx <= tolerance && dy <= tolerance;
         }
     }
 }
