@@ -12,7 +12,7 @@ namespace wmap_analysis
 {
     public partial class Form1 : Form
     {
-        PointF[] points1, points2;
+        Point[] points1, points2;
         Line[] lines = null;
         List<Intersection> intersections;
         List<IntersectionGroup> intersectionGroups;
@@ -35,13 +35,13 @@ namespace wmap_analysis
 
             for (int i = 0; i < 2; i++)
             {
-                List<PointF> points = new List<PointF>();
+                List<Point> points = new List<Point>();
                 foreach (string line in File.ReadLines(openFileDialog1.FileNames[i], Encoding.UTF8))
                 {
                     string[] coords = line.Split(',');
-                    PointF point = new PointF();
-                    point.X = Convert.ToSingle(coords[0]);
-                    point.Y = Convert.ToSingle(coords[1]);
+                    Point point = new Point();
+                    point.X = Convert.ToInt32(coords[0]);
+                    point.Y = Convert.ToInt32(coords[1]);
                     points.Add(point);
                 }
                 if (i == 0)

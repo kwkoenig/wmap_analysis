@@ -8,10 +8,10 @@ namespace wmap_analysis
         public int id { get; }
         public int index1 { get; }   // index of first point to form line
         public int index2 { get; }   // index of second point to form line
-        public PointF Point1 { get; }
-        public PointF Point2 { get; }
+        public Point Point1 { get; }
+        public Point Point2 { get; }
 
-        public Line(PointF point1, PointF point2, int id, int index1, int index2)
+        public Line(Point point1, Point point2, int id, int index1, int index2)
         {
             this.Point1 = point1;
             this.Point2 = point2;
