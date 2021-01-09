@@ -49,22 +49,49 @@ namespace wmap_analysis
                 else
                     points2 = points.ToArray();
             }
+
+            lines = GetLines(points1, points2);
+            intersections = GetIntersections(lines);
+            intersectionGroups = GetIntersectionGroups(intersections);
+            FillDataGrid1();
+        }
+
+        private Line[] GetLines(Point[] points1, Point[] points2)
+        {
             int lineCount = points1.Length * points2.Length;
-            lines = new Line[lineCount];
+            Line[] lines = new Line[lineCount];
             int id = -1;
 
             for (int i = 0, len1 = points1.Length; i < len1; i++)
                 for (int j = 0, len2 = points2.Length; j < len2; j++)
                     lines[++id] = new Line(points1[i], points2[j], id, i, j);
 
-            GetIntersections();
-            GetIntersectionGroups();
-            FillDataGrid1();
+            return lines;
+        }
+        
+        private List<Intersection> GetIntersections(Line[] lines)
+        {
+            List<Intersection> temp = new List<Intersection>();
+            for (int i = 0, lineCount = lines.Length; i < lineCount - 1; i++)
+            {
+                for (int j = i + 1; j < lineCount; j++)
+                {
+                    if (lines[i].index1 == lines[j].index1 || lines[i].index2 == lines[j].index2)
+                        continue;
+                    Intersection intersection = new Intersection(lines[i], lines[j], Convert.ToSingle(nudMinRatio.Value));
+                    if (intersection.Exists)
+                    {
+                        intersection.id = temp.Count;
+                        temp.Add(intersection);
+                    }
+                }
+            }
+            return temp.OrderBy(i => i.Point.X).ThenBy(i => i.Point.Y).ToList<Intersection>();
         }
 
-        private void GetIntersectionGroups()
+        private List<IntersectionGroup> GetIntersectionGroups(List<Intersection> intersections)
         {
-            intersectionGroups = new List<IntersectionGroup>();
+            List<IntersectionGroup> intersectionGroups = new List<IntersectionGroup>();
             IntersectionGroup group = null;
             int tolerance = Convert.ToInt32(nudTolerance.Value);
 
@@ -88,28 +115,8 @@ namespace wmap_analysis
                     group.Add(intersections[j]);
                 }
             }
-            intersectionGroups = intersectionGroups.OrderByDescending(g => g.LineIds.Count).ToList<IntersectionGroup>();
+            return intersectionGroups.OrderByDescending(g => g.LineIds.Count).ToList<IntersectionGroup>();
         }
-        private void GetIntersections()
-        {
-            List<Intersection> temp = new List<Intersection>();
-            for (int i = 0, lineCount = lines.Length; i < lineCount - 1; i++)
-            {
-                for (int j = i + 1; j < lineCount; j++)
-                {
-                    if (lines[i].index1 == lines[j].index1 || lines[i].index2 == lines[j].index2)
-                        continue;
-                    Intersection intersection = new Intersection(lines[i], lines[j], Convert.ToSingle(nudMinRatio.Value));
-                    if (intersection.Exists)
-                    {
-                        intersection.id = temp.Count;
-                        temp.Add(intersection);
-                    }
-                }
-            }
-            intersections = temp.OrderBy(i => i.Point.X).ThenBy(i => i.Point.Y).ToList<Intersection>();
-        }
-
         private void FillDataGrid1()
         {
             ResetDataGridView(1);
@@ -258,10 +265,11 @@ namespace wmap_analysis
             pictureBox1.Image = bitmap;
         }
 
+
         private void nudMinRatio_ValueChanged(object sender, EventArgs e)
         {
-            if (lines != null)
-                GetIntersections();
+            //if (lines != null)
+            //    GetIntersections();
         }
     }
 }

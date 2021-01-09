@@ -16,9 +16,9 @@ namespace wmap_analysis
         {
             this.Intersection = new Point(i.Point.X, i.Point.Y);
             LineIds = new List<int>();
+            points = new List<Point>();
             LineIds.Add(i.Line1.id);
             LineIds.Add(i.Line2.id);
-            points = new List<Point>();
         }
 
         public void Add(Intersection i)
