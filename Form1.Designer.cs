@@ -34,7 +34,6 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblIntersectionCount = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblIntersection = new System.Windows.Forms.Label();
@@ -59,6 +58,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.nudHits = new System.Windows.Forms.NumericUpDown();
             this.lblOdds = new System.Windows.Forms.Label();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.worker = new System.ComponentModel.BackgroundWorker();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -112,15 +113,6 @@
             this.loadImageToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.loadImageToolStripMenuItem.Text = "Load Image";
             this.loadImageToolStripMenuItem.Click += new System.EventHandler(this.loadImageToolStripMenuItem_Click);
-            // 
-            // lblIntersectionCount
-            // 
-            this.lblIntersectionCount.AutoSize = true;
-            this.lblIntersectionCount.Location = new System.Drawing.Point(13, 28);
-            this.lblIntersectionCount.Name = "lblIntersectionCount";
-            this.lblIntersectionCount.Size = new System.Drawing.Size(97, 13);
-            this.lblIntersectionCount.TabIndex = 2;
-            this.lblIntersectionCount.Text = "Initial Intersections:";
             // 
             // dataGridView1
             // 
@@ -247,7 +239,7 @@
             // 
             // nudLines
             // 
-            this.nudLines.Location = new System.Drawing.Point(243, 596);
+            this.nudLines.Location = new System.Drawing.Point(284, 595);
             this.nudLines.Maximum = new decimal(new int[] {
             10,
             0,
@@ -260,7 +252,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(207, 597);
+            this.label5.Location = new System.Drawing.Point(248, 596);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(35, 13);
             this.label5.TabIndex = 23;
@@ -269,7 +261,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(317, 597);
+            this.label6.Location = new System.Drawing.Point(358, 596);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(48, 13);
             this.label6.TabIndex = 25;
@@ -277,7 +269,7 @@
             // 
             // nudPoints1
             // 
-            this.nudPoints1.Location = new System.Drawing.Point(366, 595);
+            this.nudPoints1.Location = new System.Drawing.Point(407, 594);
             this.nudPoints1.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -300,7 +292,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(442, 597);
+            this.label7.Location = new System.Drawing.Point(483, 596);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(48, 13);
             this.label7.TabIndex = 27;
@@ -308,7 +300,7 @@
             // 
             // nudPoints2
             // 
-            this.nudPoints2.Location = new System.Drawing.Point(493, 595);
+            this.nudPoints2.Location = new System.Drawing.Point(534, 594);
             this.nudPoints2.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -331,7 +323,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(566, 597);
+            this.label8.Location = new System.Drawing.Point(607, 596);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(62, 13);
             this.label8.TabIndex = 28;
@@ -344,7 +336,7 @@
             this.cbImageSize.Items.AddRange(new object[] {
             "256 X 512",
             "512 X 512"});
-            this.cbImageSize.Location = new System.Drawing.Point(630, 593);
+            this.cbImageSize.Location = new System.Drawing.Point(671, 592);
             this.cbImageSize.Name = "cbImageSize";
             this.cbImageSize.Size = new System.Drawing.Size(76, 21);
             this.cbImageSize.TabIndex = 29;
@@ -362,7 +354,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(107, 597);
+            this.label4.Location = new System.Drawing.Point(148, 596);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(28, 13);
             this.label4.TabIndex = 32;
@@ -375,7 +367,7 @@
             0,
             0,
             0});
-            this.nudHits.Location = new System.Drawing.Point(137, 596);
+            this.nudHits.Location = new System.Drawing.Point(178, 595);
             this.nudHits.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -393,17 +385,37 @@
             // lblOdds
             // 
             this.lblOdds.AutoSize = true;
-            this.lblOdds.Location = new System.Drawing.Point(734, 596);
+            this.lblOdds.Location = new System.Drawing.Point(775, 595);
             this.lblOdds.Name = "lblOdds";
             this.lblOdds.Size = new System.Drawing.Size(35, 13);
             this.lblOdds.TabIndex = 33;
             this.lblOdds.Text = "Odds:";
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Enabled = false;
+            this.btnCancel.Location = new System.Drawing.Point(78, 592);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(56, 23);
+            this.btnCancel.TabIndex = 34;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // worker
+            // 
+            this.worker.WorkerReportsProgress = true;
+            this.worker.WorkerSupportsCancellation = true;
+            this.worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.worker_DoWork);
+            this.worker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.worker_ProgressChanged);
+            this.worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.worker_RunWorkerCompleted);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(981, 622);
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lblOdds);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.nudHits);
@@ -427,7 +439,6 @@
             this.Controls.Add(this.lblIntersection);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.lblIntersectionCount);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
@@ -456,7 +467,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openFilesToolStripMenuItem;
-        private System.Windows.Forms.Label lblIntersectionCount;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label lblIntersection;
@@ -482,6 +492,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown nudHits;
         private System.Windows.Forms.Label lblOdds;
+        private System.Windows.Forms.Button btnCancel;
+        private System.ComponentModel.BackgroundWorker worker;
     }
 }
 

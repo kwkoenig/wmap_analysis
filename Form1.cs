@@ -96,10 +96,7 @@ namespace wmap_analysis
             IntersectionGroup group = null;
             int tolerance = Convert.ToInt32(nudTolerance.Value);
 
-            int count = intersections.Count;
-            lblIntersectionCount.Text = "Initial Intersections: " + count.ToString();
-
-            for (int i = 0; i < count - 1; i++)
+            for (int i = 0, count = intersections.Count; i < count - 1; i++)
             {
                 for (int j = i + 1; j < count; j++)
                 {
@@ -274,47 +271,108 @@ namespace wmap_analysis
             pictureBox1.Image = bitmap;
         }
 
-        private void btnOdds_Click(object sender, EventArgs e)
+        private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             Point[] oPoints1, oPoints2;
             Line[] oLines = null;
             List<Intersection> oIntersections;
             List<IntersectionGroup> oIntersectionGroups;
-            int targetHits = Convert.ToInt32(nudHits.Value);
-            int lines = Convert.ToInt32(nudLines.Value);
-            int numPoints1 = Convert.ToInt32(nudPoints1.Value);
-            int numPoints2 = Convert.ToInt32(nudPoints2.Value);
-            int maxY = cbImageSize.SelectedIndex == 0 ? 256 : 512;
+            int[] args = (int[])e.Argument;
+            int targetHits = args[0];
+            int lines = args[1];
+            int numPoints1 = args[2];
+            int numPoints2 = args[3];
+            int maxY = args[4];
 
             long ticks = DateTime.Now.Ticks;
-            while (ticks > Int32.MaxValue)
-                ticks >>= 1;
-            Random rand = new Random(Convert.ToInt32(ticks));
-
-            for (int trial = 1, hits = 0; trial < 1001 && hits < targetHits; trial++)
+            ulong uticks = Convert.ToUInt64(ticks);
+            for (int shift = 1; uticks > Int32.MaxValue; shift++)
             {
-                oPoints1 = new Point[numPoints1];
-                oPoints2 = new Point[numPoints2];
-                for (int i = 0; i < numPoints1; i++)
-                    oPoints1[i] = new Point(rand.Next(512), rand.Next(maxY));
-                for (int i = 0; i < numPoints2; i++)
-                    oPoints2[i] = new Point(rand.Next(512), rand.Next(maxY));
-                oLines = GetLines(oPoints1, oPoints2);
-                oIntersections = GetIntersections(oLines);
-                oIntersectionGroups = GetIntersectionGroups(oIntersections);
-                for (int i = 0, j = oIntersectionGroups.Count; i < j; i++)
-                {
-                    int count = oIntersectionGroups[i].LineIds.Count;
-                    if (count == lines)
-                        ++hits;
-                    else if (count < lines)
-                        break;
-                }
-                double dTrial = trial, dHits = hits;
-                double pct = 100 * dHits / dTrial;
-                int trialsPerHit = hits == 0 ? 0 : Convert.ToInt32(Math.Round(dTrial / dHits));
-                lblOdds.Text = string.Format("Odds: {0} / {1} = 1 / {2} = {3}%", hits, trial, trialsPerHit, pct.ToString("0.00"));
+                uticks <<= shift;
+                uticks >>= shift;
             }
+            uint iticks = Convert.ToUInt32(uticks);
+            Random rand = new Random(Convert.ToInt32(iticks));
+            int[] progress = new int[2];
+
+            for (int trial = 1, hits = 0; hits < targetHits; trial++)
+            {
+                if (worker.CancellationPending == true)
+                {
+                    e.Cancel = true;
+                    break;
+                }
+                else
+                {
+                    oPoints1 = new Point[numPoints1];
+                    oPoints2 = new Point[numPoints2];
+                    for (int i = 0; i < numPoints1; i++)
+                        oPoints1[i] = new Point(rand.Next(512), rand.Next(maxY));
+                    for (int i = 0; i < numPoints2; i++)
+                        oPoints2[i] = new Point(rand.Next(512), rand.Next(maxY));
+                    oLines = GetLines(oPoints1, oPoints2);
+                    oIntersections = GetIntersections(oLines);
+                    oIntersectionGroups = GetIntersectionGroups(oIntersections);
+                    for (int i = 0, j = oIntersectionGroups.Count; i < j; i++)
+                    {
+                        int count = oIntersectionGroups[i].LineIds.Count;
+                        if (count == lines)
+                        {
+                            ++hits;
+                            progress[0] = trial;
+                            progress[1] = hits;
+                            worker.ReportProgress(0, progress);
+                        }
+                        else if (count < lines)
+                            break;
+                    }
+                }
+            }
+        }
+        private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            int[] progress = (int[])e.UserState;
+            int trial = progress[0];
+            int hits = progress[1];
+            double dTrial = trial, dHits = hits;
+            double pct = 100 * dHits / dTrial;
+            double trialsPerHit = hits == 0 ? 0 : dTrial / dHits;
+            lblOdds.Text = string.Format("Odds: {0} / {1} = 1 / {2} = {3}%", hits, trial, trialsPerHit.ToString("0.00"), pct.ToString("0.00"));
+        }
+
+        private void btnOdds_Click(object sender, EventArgs e)
+        {
+            if (worker.IsBusy != true)
+            {
+                int targetHits = Convert.ToInt32(nudHits.Value);
+                int lines = Convert.ToInt32(nudLines.Value);
+                int numPoints1 = Convert.ToInt32(nudPoints1.Value);
+                int numPoints2 = Convert.ToInt32(nudPoints2.Value);
+                int maxY = cbImageSize.SelectedIndex == 0 ? 256 : 512;
+                int[] args = new int[5];
+                args[0] = targetHits;
+                args[1] = lines;
+                args[2] = numPoints1;
+                args[3] = numPoints2;
+                args[4] = maxY;
+                btnOdds.Enabled = false;
+                btnCancel.Enabled = true;
+                lblOdds.Text = "Odds:";
+                worker.RunWorkerAsync(args);
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            worker.CancelAsync();
+            btnOdds.Enabled = true;
+            btnCancel.Enabled = false;
+        }
+
+        private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            btnOdds.Enabled = true;
+            btnCancel.Enabled = false;
         }
 
         private void nudMinRatio_ValueChanged(object sender, EventArgs e)
