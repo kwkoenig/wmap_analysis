@@ -51,8 +51,8 @@ namespace wmap_analysis
             }
 
             lines = GetLines(points1, points2);
-            intersections = GetIntersections(lines);
-            intersectionGroups = GetIntersectionGroups(intersections);
+            intersections = GetIntersections(lines, Convert.ToSingle(nudMinRatio.Value));
+            intersectionGroups = GetIntersectionGroups(intersections, Convert.ToInt32(nudTolerance.Value));
             SetOddsControls();
             FillDataGrid1();
         }
@@ -70,7 +70,7 @@ namespace wmap_analysis
             return lines;
         }
         
-        private List<Intersection> GetIntersections(Line[] lines)
+        private List<Intersection> GetIntersections(Line[] lines, float minRatio)
         {
             List<Intersection> temp = new List<Intersection>();
             for (int i = 0, lineCount = lines.Length; i < lineCount - 1; i++)
@@ -79,7 +79,7 @@ namespace wmap_analysis
                 {
                     if (lines[i].index1 == lines[j].index1 || lines[i].index2 == lines[j].index2)
                         continue;
-                    Intersection intersection = new Intersection(lines[i], lines[j], Convert.ToSingle(nudMinRatio.Value));
+                    Intersection intersection = new Intersection(lines[i], lines[j], minRatio);
                     if (intersection.Exists)
                     {
                         intersection.id = temp.Count;
@@ -90,11 +90,10 @@ namespace wmap_analysis
             return temp.OrderBy(i => i.Point.X).ThenBy(i => i.Point.Y).ToList<Intersection>();
         }
 
-        private List<IntersectionGroup> GetIntersectionGroups(List<Intersection> intersections)
+        private List<IntersectionGroup> GetIntersectionGroups(List<Intersection> intersections, int tolerance)
         {
             List<IntersectionGroup> intersectionGroups = new List<IntersectionGroup>();
             IntersectionGroup group = null;
-            int tolerance = Convert.ToInt32(nudTolerance.Value);
 
             for (int i = 0, count = intersections.Count; i < count - 1; i++)
             {
@@ -277,12 +276,14 @@ namespace wmap_analysis
             Line[] oLines = null;
             List<Intersection> oIntersections;
             List<IntersectionGroup> oIntersectionGroups;
-            int[] args = (int[])e.Argument;
-            int targetHits = args[0];
-            int lines = args[1];
-            int numPoints1 = args[2];
-            int numPoints2 = args[3];
-            int maxY = args[4];
+            decimal[] args = (decimal[])e.Argument;
+            int targetHits = Convert.ToInt32(args[0]);
+            int lines = Convert.ToInt32(args[1]);
+            int numPoints1 = Convert.ToInt32(args[2]);
+            int numPoints2 = Convert.ToInt32(args[3]);
+            int maxY = Convert.ToInt32(args[4]);
+            int tolerance = Convert.ToInt32(args[5]);
+            float minRatio = Convert.ToSingle(args[6]);
 
             long ticks = DateTime.Now.Ticks;
             ulong uticks = Convert.ToUInt64(ticks);
@@ -311,8 +312,8 @@ namespace wmap_analysis
                     for (int i = 0; i < numPoints2; i++)
                         oPoints2[i] = new Point(rand.Next(512), rand.Next(maxY));
                     oLines = GetLines(oPoints1, oPoints2);
-                    oIntersections = GetIntersections(oLines);
-                    oIntersectionGroups = GetIntersectionGroups(oIntersections);
+                    oIntersections = GetIntersections(oLines, minRatio);
+                    oIntersectionGroups = GetIntersectionGroups(oIntersections, tolerance);
                     for (int i = 0, j = oIntersectionGroups.Count; i < j; i++)
                     {
                         int count = oIntersectionGroups[i].LineIds.Count;
@@ -349,12 +350,15 @@ namespace wmap_analysis
                 int numPoints1 = Convert.ToInt32(nudPoints1.Value);
                 int numPoints2 = Convert.ToInt32(nudPoints2.Value);
                 int maxY = cbImageSize.SelectedIndex == 0 ? 256 : 512;
-                int[] args = new int[5];
+                decimal[] args = new decimal[7];
                 args[0] = targetHits;
                 args[1] = lines;
                 args[2] = numPoints1;
                 args[3] = numPoints2;
                 args[4] = maxY;
+                args[5] = nudTolerance.Value;
+                args[6] = nudMinRatio.Value;
+
                 btnOdds.Enabled = false;
                 btnCancel.Enabled = true;
                 lblOdds.Text = "Odds:";
