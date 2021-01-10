@@ -47,22 +47,28 @@
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.label3 = new System.Windows.Forms.Label();
             this.nudTolerance = new System.Windows.Forms.NumericUpDown();
-            this.label4 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.nudLines = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.nudPoints1 = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.nudPoints2 = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cbImageSize = new System.Windows.Forms.ComboBox();
+            this.btnOdds = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.nudHits = new System.Windows.Forms.NumericUpDown();
+            this.lblOdds = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMinRatio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTolerance)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudLines)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudPoints1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudPoints2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudHits)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -80,7 +86,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1157, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(981, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -126,7 +132,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(636, 57);
+            this.pictureBox1.Location = new System.Drawing.Point(462, 57);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(512, 512);
             this.pictureBox1.TabIndex = 4;
@@ -135,7 +141,7 @@
             // lblIntersection
             // 
             this.lblIntersection.AutoSize = true;
-            this.lblIntersection.Location = new System.Drawing.Point(636, 38);
+            this.lblIntersection.Location = new System.Drawing.Point(462, 38);
             this.lblIntersection.Name = "lblIntersection";
             this.lblIntersection.Size = new System.Drawing.Size(0, 13);
             this.lblIntersection.TabIndex = 12;
@@ -148,7 +154,7 @@
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(1072, 32);
+            this.btnReset.Location = new System.Drawing.Point(898, 32);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(75, 21);
             this.btnReset.TabIndex = 13;
@@ -163,7 +169,7 @@
             this.cbLineColor.Items.AddRange(new object[] {
             "Black",
             "White"});
-            this.cbLineColor.Location = new System.Drawing.Point(997, 32);
+            this.cbLineColor.Location = new System.Drawing.Point(823, 32);
             this.cbLineColor.Name = "cbLineColor";
             this.cbLineColor.Size = new System.Drawing.Size(57, 21);
             this.cbLineColor.TabIndex = 14;
@@ -171,7 +177,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(958, 36);
+            this.label1.Location = new System.Drawing.Point(784, 36);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 15;
@@ -239,26 +245,17 @@
             this.nudTolerance.Size = new System.Drawing.Size(51, 20);
             this.nudTolerance.TabIndex = 19;
             // 
-            // label4
+            // nudLines
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 597);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(162, 13);
-            this.label4.TabIndex = 21;
-            this.label4.Text = "Compute odds for an intersection";
-            // 
-            // numericUpDown1
-            // 
-            this.numericUpDown1.Location = new System.Drawing.Point(243, 596);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.nudLines.Location = new System.Drawing.Point(243, 596);
+            this.nudLines.Maximum = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(51, 20);
-            this.numericUpDown1.TabIndex = 22;
+            this.nudLines.Name = "nudLines";
+            this.nudLines.Size = new System.Drawing.Size(51, 20);
+            this.nudLines.TabIndex = 22;
             // 
             // label5
             // 
@@ -272,57 +269,153 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(321, 597);
+            this.label6.Location = new System.Drawing.Point(317, 597);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(48, 13);
             this.label6.TabIndex = 25;
             this.label6.Text = "Points 1:";
             // 
-            // numericUpDown2
+            // nudPoints1
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(370, 595);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
-            10,
+            this.nudPoints1.Location = new System.Drawing.Point(366, 595);
+            this.nudPoints1.Maximum = new decimal(new int[] {
+            1000,
             0,
             0,
             0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(51, 20);
-            this.numericUpDown2.TabIndex = 24;
+            this.nudPoints1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudPoints1.Name = "nudPoints1";
+            this.nudPoints1.Size = new System.Drawing.Size(51, 20);
+            this.nudPoints1.TabIndex = 24;
+            this.nudPoints1.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(446, 597);
+            this.label7.Location = new System.Drawing.Point(442, 597);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(48, 13);
             this.label7.TabIndex = 27;
             this.label7.Text = "Points 2:";
             // 
-            // numericUpDown3
+            // nudPoints2
             // 
-            this.numericUpDown3.Location = new System.Drawing.Point(497, 595);
-            this.numericUpDown3.Maximum = new decimal(new int[] {
+            this.nudPoints2.Location = new System.Drawing.Point(493, 595);
+            this.nudPoints2.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudPoints2.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudPoints2.Name = "nudPoints2";
+            this.nudPoints2.Size = new System.Drawing.Size(51, 20);
+            this.nudPoints2.TabIndex = 26;
+            this.nudPoints2.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(566, 597);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(62, 13);
+            this.label8.TabIndex = 28;
+            this.label8.Text = "Image Size:";
+            // 
+            // cbImageSize
+            // 
+            this.cbImageSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbImageSize.FormattingEnabled = true;
+            this.cbImageSize.Items.AddRange(new object[] {
+            "256 X 512",
+            "512 X 512"});
+            this.cbImageSize.Location = new System.Drawing.Point(630, 593);
+            this.cbImageSize.Name = "cbImageSize";
+            this.cbImageSize.Size = new System.Drawing.Size(76, 21);
+            this.cbImageSize.TabIndex = 29;
+            // 
+            // btnOdds
+            // 
+            this.btnOdds.Location = new System.Drawing.Point(13, 592);
+            this.btnOdds.Name = "btnOdds";
+            this.btnOdds.Size = new System.Drawing.Size(56, 23);
+            this.btnOdds.TabIndex = 30;
+            this.btnOdds.Text = "Odds";
+            this.btnOdds.UseVisualStyleBackColor = true;
+            this.btnOdds.Click += new System.EventHandler(this.btnOdds_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(107, 597);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(28, 13);
+            this.label4.TabIndex = 32;
+            this.label4.Text = "Hits:";
+            // 
+            // nudHits
+            // 
+            this.nudHits.Increment = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(51, 20);
-            this.numericUpDown3.TabIndex = 26;
+            this.nudHits.Location = new System.Drawing.Point(137, 596);
+            this.nudHits.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudHits.Name = "nudHits";
+            this.nudHits.Size = new System.Drawing.Size(51, 20);
+            this.nudHits.TabIndex = 31;
+            this.nudHits.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // lblOdds
+            // 
+            this.lblOdds.AutoSize = true;
+            this.lblOdds.Location = new System.Drawing.Point(734, 596);
+            this.lblOdds.Name = "lblOdds";
+            this.lblOdds.Size = new System.Drawing.Size(35, 13);
+            this.lblOdds.TabIndex = 33;
+            this.lblOdds.Text = "Odds:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1157, 622);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.numericUpDown3);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.numericUpDown2);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.numericUpDown1);
+            this.ClientSize = new System.Drawing.Size(981, 622);
+            this.Controls.Add(this.lblOdds);
             this.Controls.Add(this.label4);
+            this.Controls.Add(this.nudHits);
+            this.Controls.Add(this.btnOdds);
+            this.Controls.Add(this.cbImageSize);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.nudPoints2);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.nudPoints1);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.nudLines);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.nudTolerance);
             this.Controls.Add(this.dataGridView2);
@@ -348,9 +441,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudMinRatio)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTolerance)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudLines)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudPoints1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudPoints2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudHits)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -376,13 +470,18 @@
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown nudTolerance;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown nudLines;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown nudPoints1;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.NumericUpDown nudPoints2;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox cbImageSize;
+        private System.Windows.Forms.Button btnOdds;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown nudHits;
+        private System.Windows.Forms.Label lblOdds;
     }
 }
 

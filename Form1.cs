@@ -53,6 +53,7 @@ namespace wmap_analysis
             lines = GetLines(points1, points2);
             intersections = GetIntersections(lines);
             intersectionGroups = GetIntersectionGroups(intersections);
+            SetOddsControls();
             FillDataGrid1();
         }
 
@@ -116,6 +117,13 @@ namespace wmap_analysis
                 }
             }
             return intersectionGroups.OrderByDescending(g => g.LineIds.Count).ToList<IntersectionGroup>();
+        }
+
+        private void SetOddsControls()
+        {
+            nudLines.Value = intersectionGroups[0].LineIds.Count;
+            nudPoints1.Value = points1.Length;
+            nudPoints2.Value = points2.Length;
         }
         private void FillDataGrid1()
         {
@@ -248,6 +256,7 @@ namespace wmap_analysis
                 for (int j = 0; j < 512; j++)
                     bitmap.SetPixel(i, j, Color.White);
             cbLineColor.SelectedIndex = 0;
+            cbImageSize.SelectedIndex = 0;
         }
 
         private void loadImageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -265,6 +274,48 @@ namespace wmap_analysis
             pictureBox1.Image = bitmap;
         }
 
+        private void btnOdds_Click(object sender, EventArgs e)
+        {
+            Point[] oPoints1, oPoints2;
+            Line[] oLines = null;
+            List<Intersection> oIntersections;
+            List<IntersectionGroup> oIntersectionGroups;
+            int targetHits = Convert.ToInt32(nudHits.Value);
+            int lines = Convert.ToInt32(nudLines.Value);
+            int numPoints1 = Convert.ToInt32(nudPoints1.Value);
+            int numPoints2 = Convert.ToInt32(nudPoints2.Value);
+            int maxY = cbImageSize.SelectedIndex == 0 ? 256 : 512;
+
+            long ticks = DateTime.Now.Ticks;
+            while (ticks > Int32.MaxValue)
+                ticks >>= 1;
+            Random rand = new Random(Convert.ToInt32(ticks));
+
+            for (int trial = 1, hits = 0; trial < 1001 && hits < targetHits; trial++)
+            {
+                oPoints1 = new Point[numPoints1];
+                oPoints2 = new Point[numPoints2];
+                for (int i = 0; i < numPoints1; i++)
+                    oPoints1[i] = new Point(rand.Next(512), rand.Next(maxY));
+                for (int i = 0; i < numPoints2; i++)
+                    oPoints2[i] = new Point(rand.Next(512), rand.Next(maxY));
+                oLines = GetLines(oPoints1, oPoints2);
+                oIntersections = GetIntersections(oLines);
+                oIntersectionGroups = GetIntersectionGroups(oIntersections);
+                for (int i = 0, j = oIntersectionGroups.Count; i < j; i++)
+                {
+                    int count = oIntersectionGroups[i].LineIds.Count;
+                    if (count == lines)
+                        ++hits;
+                    else if (count < lines)
+                        break;
+                }
+                double dTrial = trial, dHits = hits;
+                double pct = 100 * dHits / dTrial;
+                int trialsPerHit = hits == 0 ? 0 : Convert.ToInt32(Math.Round(dTrial / dHits));
+                lblOdds.Text = string.Format("Odds: {0} / {1} = 1 / {2} = {3}%", hits, trial, trialsPerHit, pct.ToString("0.00"));
+            }
+        }
 
         private void nudMinRatio_ValueChanged(object sender, EventArgs e)
         {
