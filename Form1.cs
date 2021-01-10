@@ -51,6 +51,11 @@ namespace wmap_analysis
             }
 
             lines = GetLines(points1, points2);
+            ComputeFromLinesAndFillGrid();
+        }
+
+        private void ComputeFromLinesAndFillGrid()
+        {
             intersections = GetIntersections(lines, Convert.ToSingle(nudMinRatio.Value));
             intersectionGroups = GetIntersectionGroups(intersections, Convert.ToInt32(nudTolerance.Value));
             SetOddsControls();
@@ -379,10 +384,16 @@ namespace wmap_analysis
             btnCancel.Enabled = false;
         }
 
+        private void nudTolerance_ValueChanged(object sender, EventArgs e)
+        {
+            if (lines != null)
+                ComputeFromLinesAndFillGrid();
+        }
+
         private void nudMinRatio_ValueChanged(object sender, EventArgs e)
         {
-            //if (lines != null)
-            //    GetIntersections();
+            if (lines != null)
+                ComputeFromLinesAndFillGrid();
         }
     }
 }

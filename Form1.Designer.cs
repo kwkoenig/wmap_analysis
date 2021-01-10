@@ -236,15 +236,11 @@
             this.nudTolerance.Name = "nudTolerance";
             this.nudTolerance.Size = new System.Drawing.Size(51, 20);
             this.nudTolerance.TabIndex = 19;
+            this.nudTolerance.ValueChanged += new System.EventHandler(this.nudTolerance_ValueChanged);
             // 
             // nudLines
             // 
             this.nudLines.Location = new System.Drawing.Point(284, 595);
-            this.nudLines.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
             this.nudLines.Name = "nudLines";
             this.nudLines.Size = new System.Drawing.Size(51, 20);
             this.nudLines.TabIndex = 22;

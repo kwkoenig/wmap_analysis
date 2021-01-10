@@ -1,7 +1,6 @@
 C:\Keith\wmap_analysis\bin\Release\wmap_analysis.exe.config
 C:\Keith\wmap_analysis\bin\Release\wmap_analysis.exe
 C:\Keith\wmap_analysis\bin\Release\wmap_analysis.pdb
-C:\Keith\wmap_analysis\obj\Release\wmap_analysis.csprojAssemblyReference.cache
 C:\Keith\wmap_analysis\obj\Release\wmap_analysis.Form1.resources
 C:\Keith\wmap_analysis\obj\Release\wmap_analysis.Properties.Resources.resources
 C:\Keith\wmap_analysis\obj\Release\wmap_analysis.csproj.GenerateResource.cache
