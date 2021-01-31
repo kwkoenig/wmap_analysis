@@ -122,6 +122,8 @@ namespace wmap_analysis
 
         private void SetOddsControls()
         {
+            if (intersectionGroups.Count == 0)
+                return;
             nudLines.Value = intersectionGroups[0].LineIds.Count;
             nudPoints1.Value = points1.Length;
             nudPoints2.Value = points2.Length;
