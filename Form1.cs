@@ -52,6 +52,7 @@ namespace wmap_analysis
 
             lines = GetLines(points1, points2);
             ComputeFromLinesAndFillGrid();
+            DataGridView1_CellClick(null, new DataGridViewCellEventArgs(1, 0));
         }
 
         private void ComputeFromLinesAndFillGrid()
@@ -145,7 +146,6 @@ namespace wmap_analysis
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.DataSource = table;
             dataGridView1.CellClick += DataGridView1_CellClick;
-
         }
 
         private void DataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
