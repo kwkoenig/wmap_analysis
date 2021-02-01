@@ -7,36 +7,45 @@ namespace wmap_analysis
     class IntersectionGroup
     {
         public Point Intersection { get; }
-        public List<int> LineIds { get; }
-
-        private List<Point> points;
+        public List<Line> Lines { get; }
 
 
         public IntersectionGroup (Intersection i)
         {
             this.Intersection = new Point(i.Point.X, i.Point.Y);
-            LineIds = new List<int>();
-            points = new List<Point>();
-            LineIds.Add(i.Line1.id);
-            LineIds.Add(i.Line2.id);
+            Lines = new List<Line>();
         }
 
         public void Add(Intersection i)
         {
-            if (points.Contains(i.Line1.Point1) || points.Contains(i.Line1.Point2) || points.Contains(i.Line2.Point1) || points.Contains(i.Line2.Point2))
+            if (!i.Point.Equals(this.Intersection))
                 return;
-            if (!LineIds.Contains(i.Line1.id))
+
+            bool addLine1 = true;
+            bool addLine2 = true;
+            foreach (Line line in Lines)
             {
-                LineIds.Add(i.Line1.id);
-                points.Add(i.Line1.Point1);
-                points.Add(i.Line1.Point2);
+                if (line.Point1.Equals(i.Line1.Point1) ||
+                    line.Point1.Equals(i.Line1.Point2) ||
+                    line.Point2.Equals(i.Line1.Point1) ||
+                    line.Point2.Equals(i.Line1.Point2)
+                   )
+                {
+                    addLine1 = false;
+                }
+                if (line.Point1.Equals(i.Line2.Point1) ||
+                    line.Point1.Equals(i.Line2.Point2) ||
+                    line.Point2.Equals(i.Line2.Point1) ||
+                    line.Point2.Equals(i.Line2.Point2)
+                   )
+                {
+                    addLine2 = false;
+                }
             }
-            if (!LineIds.Contains(i.Line2.id))
-            {
-                LineIds.Add(i.Line2.id);
-                points.Add(i.Line2.Point1);
-                points.Add(i.Line2.Point2);
-            }
+            if (addLine1)
+                Lines.Add(i.Line1);
+            if (addLine2)
+                Lines.Add(i.Line2);
         }
     }
 }

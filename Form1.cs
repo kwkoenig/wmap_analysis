@@ -118,14 +118,14 @@ namespace wmap_analysis
                     group.Add(intersections[j]);
                 }
             }
-            return intersectionGroups.OrderByDescending(g => g.LineIds.Count).ToList<IntersectionGroup>();
+            return intersectionGroups.OrderByDescending(g => g.Lines.Count).ToList<IntersectionGroup>();
         }
 
         private void SetOddsControls()
         {
             if (intersectionGroups.Count == 0)
                 return;
-            nudLines.Value = intersectionGroups[0].LineIds.Count;
+            nudLines.Value = intersectionGroups[0].Lines.Count;
             nudPoints1.Value = points1.Length;
             nudPoints2.Value = points2.Length;
         }
@@ -137,7 +137,7 @@ namespace wmap_analysis
             foreach (IntersectionGroup group in intersectionGroups)
             {
                 DataRow row = table.NewRow();
-                row["Lines"] = group.LineIds.Count;
+                row["Lines"] = group.Lines.Count;
                 table.Rows.Add(row);
             }
             table.AcceptChanges();
@@ -194,9 +194,9 @@ namespace wmap_analysis
             {
                 using (Pen pen = cbLineColor.SelectedIndex == 0 ? new Pen(Color.Black, 1) : new Pen(Color.White, 1))
                 {
-                    foreach (int i in intersectionGroups[row].LineIds)
+                    foreach (Line line in intersectionGroups[row].Lines)
                     {
-                        gr.DrawLine(pen, lines[i].Point1, lines[i].Point2);
+                        gr.DrawLine(pen, line.Point1, line.Point2);
                     }
                 }
             }
@@ -211,14 +211,14 @@ namespace wmap_analysis
             table.Columns.Add("x2", typeof(int));
             table.Columns.Add("y2", typeof(int));
             table.AcceptChanges();
-            foreach (int i in intersectionGroups[row].LineIds)
+            foreach (Line line in intersectionGroups[row].Lines)
             {
                 DataRow newRow = table.NewRow();
-                newRow["Line ID"] = i;
-                newRow["x1"] = lines[i].Point1.X;
-                newRow["y1"] = lines[i].Point1.Y;
-                newRow["x2"] = lines[i].Point2.X;
-                newRow["y2"] = lines[i].Point2.Y;
+                newRow["Line ID"] = line.id;
+                newRow["x1"] = line.Point1.X;
+                newRow["y1"] = line.Point1.Y;
+                newRow["x2"] = line.Point2.X;
+                newRow["y2"] = line.Point2.Y;
                 table.Rows.Add(newRow);
             }
             table.AcceptChanges();
@@ -259,7 +259,7 @@ namespace wmap_analysis
                 for (int j = 0; j < 512; j++)
                     bitmap.SetPixel(i, j, Color.White);
             cbLineColor.SelectedIndex = 0;
-            cbImageSize.SelectedIndex = 0;
+            cbImageSize.SelectedIndex = 1;
         }
 
         private void loadImageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -323,7 +323,7 @@ namespace wmap_analysis
                     oIntersectionGroups = GetIntersectionGroups(oIntersections, tolerance);
                     for (int i = 0, j = oIntersectionGroups.Count; i < j; i++)
                     {
-                        int count = oIntersectionGroups[i].LineIds.Count;
+                        int count = oIntersectionGroups[i].Lines.Count;
                         if (count == lines)
                         {
                             ++hits;
