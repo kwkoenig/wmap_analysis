@@ -274,7 +274,7 @@ namespace wmap_analysis
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = bitmap;
+            pictureBox1.Image = null;
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
