@@ -7,3 +7,4 @@ C:\Keith\wmap_analysis\obj\Release\wmap_analysis.csproj.GenerateResource.cache
 C:\Keith\wmap_analysis\obj\Release\wmap_analysis.csproj.CoreCompileInputs.cache
 C:\Keith\wmap_analysis\obj\Release\wmap_analysis.exe
 C:\Keith\wmap_analysis\obj\Release\wmap_analysis.pdb
+C:\Keith\wmap_analysis\obj\Release\wmap_analysis.csprojAssemblyReference.cache

@@ -118,6 +118,39 @@ namespace wmap_analysis
                     group.Add(intersections[j]);
                 }
             }
+            if (tolerance > 0)
+            {
+                List<IntersectionGroup> temp = intersectionGroups.OrderByDescending(g => g.Intersection.X).ToList<IntersectionGroup>();
+                List<IntersectionGroup> newGroups = new List<IntersectionGroup>();
+                int deltaX, deltaY;
+                for (int i = 0, count = temp.Count; i < count; i++)
+                {
+                    for (int j = i + 1; j < count; j++)
+                    {
+                        deltaX = temp[i].Intersection.X - temp[j].Intersection.X;
+                        if (deltaX < 0) deltaX = -deltaX;
+                        deltaY = temp[i].Intersection.Y - temp[j].Intersection.Y;
+                        if (deltaY < 0) deltaY = -deltaY;
+                        if (deltaX <= tolerance && deltaY <= tolerance)
+                        {
+                            int newX = (temp[i].Intersection.X + temp[j].Intersection.X) / 2;
+                            int newY = (temp[i].Intersection.Y + temp[j].Intersection.Y) / 2;
+                            IntersectionGroup newGroup = new IntersectionGroup(newX, newY);
+                            foreach (Line line in temp[i].Lines)
+                                newGroup.Add(line);
+                            foreach (Line line in temp[j].Lines)
+                                newGroup.Add(line);
+                            newGroups.Add(newGroup);
+                        }
+                        else
+                            break;
+                    }
+                }
+                if (newGroups.Count > 0)
+                    foreach (IntersectionGroup newGroup in newGroups)
+                        intersectionGroups.Add(newGroup);
+
+            }
             return intersectionGroups.OrderByDescending(g => g.Lines.Count).ToList<IntersectionGroup>();
         }
 
@@ -274,7 +307,8 @@ namespace wmap_analysis
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            pictureBox1.Image = null;
+            bitmap = new Bitmap(512, 512);
+            pictureBox1.Image = bitmap;
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
@@ -345,7 +379,7 @@ namespace wmap_analysis
             double dTrial = trial, dHits = hits;
             double pct = 100 * dHits / dTrial;
             double trialsPerHit = hits == 0 ? 0 : dTrial / dHits;
-            lblOdds.Text = string.Format("Odds: {0} / {1} = 1 / {2} = {3}%", hits, trial, trialsPerHit.ToString("0.00"), pct.ToString("0.00"));
+            lblOdds.Text = string.Format("Odds: {0} / {1} = 1 / {2} = {3}%", hits, trial, trialsPerHit.ToString("0.00"), pct.ToString("0.00000"));
         }
 
         private void btnOdds_Click(object sender, EventArgs e)

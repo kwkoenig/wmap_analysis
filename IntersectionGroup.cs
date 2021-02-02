@@ -9,13 +9,30 @@ namespace wmap_analysis
         public Point Intersection { get; }
         public List<Line> Lines { get; }
 
-
+        public IntersectionGroup (int X, int Y)
+        {
+            this.Intersection = new Point(X, Y);
+            Lines = new List<Line>();
+        }
         public IntersectionGroup (Intersection i)
         {
             this.Intersection = new Point(i.Point.X, i.Point.Y);
             Lines = new List<Line>();
         }
+        public void Add (Line newLine)
+        {
+            foreach (Line line in Lines)
+            {
+                if (line.Point1.Equals(newLine.Point1) ||
+                    line.Point1.Equals(newLine.Point2) ||
+                    line.Point2.Equals(newLine.Point1) ||
+                    line.Point2.Equals(newLine.Point2))
+                    continue;
 
+                Lines.Add(newLine);
+            }
+        }
+        
         public void Add(Intersection i)
         {
             if (!i.Point.Equals(this.Intersection))

@@ -103,14 +103,14 @@
             // openFilesToolStripMenuItem
             // 
             this.openFilesToolStripMenuItem.Name = "openFilesToolStripMenuItem";
-            this.openFilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openFilesToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.openFilesToolStripMenuItem.Text = "Open Files";
             this.openFilesToolStripMenuItem.Click += new System.EventHandler(this.OpenFilesToolStripMenuItem_Click);
             // 
             // loadImageToolStripMenuItem
             // 
             this.loadImageToolStripMenuItem.Name = "loadImageToolStripMenuItem";
-            this.loadImageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadImageToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.loadImageToolStripMenuItem.Text = "Load Image";
             this.loadImageToolStripMenuItem.Click += new System.EventHandler(this.loadImageToolStripMenuItem_Click);
             // 
@@ -192,11 +192,6 @@
             this.nudMinRatio.Name = "nudMinRatio";
             this.nudMinRatio.Size = new System.Drawing.Size(51, 20);
             this.nudMinRatio.TabIndex = 16;
-            this.nudMinRatio.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
             this.nudMinRatio.ValueChanged += new System.EventHandler(this.nudMinRatio_ValueChanged);
             // 
             // label2
@@ -240,7 +235,7 @@
             // 
             // nudLines
             // 
-            this.nudLines.Location = new System.Drawing.Point(284, 595);
+            this.nudLines.Location = new System.Drawing.Point(270, 595);
             this.nudLines.Name = "nudLines";
             this.nudLines.Size = new System.Drawing.Size(51, 20);
             this.nudLines.TabIndex = 22;
@@ -248,7 +243,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(248, 596);
+            this.label5.Location = new System.Drawing.Point(234, 596);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(35, 13);
             this.label5.TabIndex = 23;
@@ -257,7 +252,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(358, 596);
+            this.label6.Location = new System.Drawing.Point(330, 596);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(48, 13);
             this.label6.TabIndex = 25;
@@ -265,7 +260,7 @@
             // 
             // nudPoints1
             // 
-            this.nudPoints1.Location = new System.Drawing.Point(407, 594);
+            this.nudPoints1.Location = new System.Drawing.Point(379, 595);
             this.nudPoints1.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -288,7 +283,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(483, 596);
+            this.label7.Location = new System.Drawing.Point(439, 596);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(48, 13);
             this.label7.TabIndex = 27;
@@ -296,7 +291,7 @@
             // 
             // nudPoints2
             // 
-            this.nudPoints2.Location = new System.Drawing.Point(534, 594);
+            this.nudPoints2.Location = new System.Drawing.Point(490, 595);
             this.nudPoints2.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -319,7 +314,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(607, 596);
+            this.label8.Location = new System.Drawing.Point(550, 596);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(62, 13);
             this.label8.TabIndex = 28;
@@ -332,7 +327,7 @@
             this.cbImageSize.Items.AddRange(new object[] {
             "256 X 512",
             "512 X 512"});
-            this.cbImageSize.Location = new System.Drawing.Point(671, 592);
+            this.cbImageSize.Location = new System.Drawing.Point(614, 592);
             this.cbImageSize.Name = "cbImageSize";
             this.cbImageSize.Size = new System.Drawing.Size(76, 21);
             this.cbImageSize.TabIndex = 29;
@@ -350,7 +345,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(148, 596);
+            this.label4.Location = new System.Drawing.Point(144, 596);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(28, 13);
             this.label4.TabIndex = 32;
@@ -363,7 +358,7 @@
             0,
             0,
             0});
-            this.nudHits.Location = new System.Drawing.Point(178, 595);
+            this.nudHits.Location = new System.Drawing.Point(174, 595);
             this.nudHits.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -381,7 +376,7 @@
             // lblOdds
             // 
             this.lblOdds.AutoSize = true;
-            this.lblOdds.Location = new System.Drawing.Point(775, 595);
+            this.lblOdds.Location = new System.Drawing.Point(702, 595);
             this.lblOdds.Name = "lblOdds";
             this.lblOdds.Size = new System.Drawing.Size(35, 13);
             this.lblOdds.TabIndex = 33;
