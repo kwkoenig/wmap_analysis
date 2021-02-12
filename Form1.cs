@@ -52,7 +52,7 @@ namespace wmap_analysis
 
             lines = GetLines(points1, points2);
             ComputeFromLinesAndFillGrid();
-            DataGridView1_CellClick(null, new DataGridViewCellEventArgs(1, 0));
+            //DataGridView1_CellClick(null, new DataGridViewCellEventArgs(1, 0));
         }
 
         private void ComputeFromLinesAndFillGrid()
@@ -93,67 +93,57 @@ namespace wmap_analysis
                     }
                 }
             }
-            return temp.OrderBy(i => i.Point.X).ThenBy(i => i.Point.Y).ToList<Intersection>();
+            return temp.OrderBy(i => i.Point.X).ToList<Intersection>();
         }
 
         private List<IntersectionGroup> GetIntersectionGroups(List<Intersection> intersections, int tolerance)
         {
             List<IntersectionGroup> intersectionGroups = new List<IntersectionGroup>();
-            IntersectionGroup group = null;
 
             for (int i = 0, count = intersections.Count; i < count - 1; i++)
             {
+                List<Intersection> temp = new List<Intersection>();
+                temp.Add(intersections[i]);
                 for (int j = i + 1; j < count; j++)
                 {
-                    if (!intersections[i].Equals(intersections[j], tolerance))
-                    {
-                        i = j;
+                    if (intersections[j].Point.X - intersections[i].Point.X <= tolerance)
+                        temp.Add(intersections[j]);
+                    else
                         break;
-                    }
-                    if (j == i + 1)
-                    {
-                        group = new IntersectionGroup(intersections[i]);
-                        intersectionGroups.Add(group);
-                    }
-                    group.Add(intersections[j]);
                 }
-            }
-            if (tolerance > 0)
-            {
-                List<IntersectionGroup> temp = intersectionGroups.OrderByDescending(g => g.Intersection.X).ToList<IntersectionGroup>();
-                List<IntersectionGroup> newGroups = new List<IntersectionGroup>();
-                int deltaX, deltaY;
-                for (int i = 0, count = temp.Count; i < count; i++)
+                if (temp.Count > 1)
                 {
-                    for (int j = i + 1; j < count; j++)
-                    {
-                        deltaX = temp[i].Intersection.X - temp[j].Intersection.X;
-                        if (deltaX < 0) deltaX = -deltaX;
-                        deltaY = temp[i].Intersection.Y - temp[j].Intersection.Y;
-                        if (deltaY < 0) deltaY = -deltaY;
-                        if (deltaX <= tolerance && deltaY <= tolerance)
-                        {
-                            int newX = (temp[i].Intersection.X + temp[j].Intersection.X) / 2;
-                            int newY = (temp[i].Intersection.Y + temp[j].Intersection.Y) / 2;
-                            IntersectionGroup newGroup = new IntersectionGroup(newX, newY);
-                            foreach (Line line in temp[i].Lines)
-                                newGroup.Add(line);
-                            foreach (Line line in temp[j].Lines)
-                                newGroup.Add(line);
-                            newGroups.Add(newGroup);
-                        }
-                        else
-                            break;
-                    }
+                    // sort temp by Y
+                    // get groups from temp
+                    GetGroups(temp.OrderBy(g => g.Point.Y).ToList<Intersection>(), intersectionGroups, tolerance);
                 }
-                if (newGroups.Count > 0)
-                    foreach (IntersectionGroup newGroup in newGroups)
-                        intersectionGroups.Add(newGroup);
-
+                while (i < count - 1 && intersections[i + 1].Point.X == intersections[i].Point.X)
+                    ++i;
             }
             return intersectionGroups.OrderByDescending(g => g.Lines.Count).ToList<IntersectionGroup>();
         }
 
+        private void GetGroups(List<Intersection> intersections, List<IntersectionGroup> groups, int tolerance)
+        {
+            for (int i = 0, count = intersections.Count; i < count - 1; i++)
+            {
+                IntersectionGroup group = new IntersectionGroup(intersections[i]);
+                for (int j = i + 1; j < count; j++)
+                {
+                    if (intersections[j].Point.Y - intersections[i].Point.Y <= tolerance)
+                        group.Add(intersections[j]);
+                    else
+                        break;
+                }
+                if (group.Lines.Count > 2)
+                {
+                    groups.Add(group);
+                }
+                while (i < count - 1 && intersections[i + 1].Point.Y == intersections[i].Point.Y)
+                    ++i;
+            }
+
+        }
         private void SetOddsControls()
         {
             if (intersectionGroups.Count == 0)
@@ -179,6 +169,7 @@ namespace wmap_analysis
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.DataSource = table;
             dataGridView1.CellClick += DataGridView1_CellClick;
+            DataGridView1_CellClick(null, new DataGridViewCellEventArgs(1, 0));
         }
 
         private void DataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)

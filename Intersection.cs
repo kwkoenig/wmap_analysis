@@ -75,16 +75,5 @@ namespace wmap_analysis
             if (ratio < minRatio || ratio > 1 - minRatio)
                 Exists = false;
         }
-
-        public bool Equals(Intersection i, int tolerance)
-        {
-            int dx = this.Point.X - i.Point.X;
-            if (dx < 0)
-                dx = -dx;
-            int dy = this.Point.Y - i.Point.Y;
-            if (dy < 0)
-                dy = -dy;
-            return dx <= tolerance && dy <= tolerance;
-        }
     }
 }
