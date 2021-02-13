@@ -370,7 +370,7 @@ namespace wmap_analysis
             double dTrial = trial, dHits = hits;
             double pct = 100 * dHits / dTrial;
             double trialsPerHit = hits == 0 ? 0 : dTrial / dHits;
-            lblOdds.Text = string.Format("Odds: {0} / {1} = 1 / {2} = {3}%", hits, trial, trialsPerHit.ToString("0.00"), pct.ToString("0.00000"));
+            lblOdds.Text = string.Format("Odds: {0} / {1} = 1 / {2} = {3}%", hits, trial, trialsPerHit.ToString("0"), pct.ToString("0.00000"));
         }
 
         private void btnOdds_Click(object sender, EventArgs e)
