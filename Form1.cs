@@ -52,7 +52,34 @@ namespace wmap_analysis
 
             lines = GetLines(points1, points2);
             ComputeFromLinesAndFillGrid();
+            chkPoints1FromFile.Enabled = true;
             //DataGridView1_CellClick(null, new DataGridViewCellEventArgs(1, 0));
+        }
+
+        private void open1FileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog3.ShowDialog() != DialogResult.OK)
+                return;
+            if (openFileDialog3.FileNames.Length != 1)
+            {
+                MessageBox.Show("1 file required");
+                return;
+            }
+
+            List<Point> points = new List<Point>();
+            foreach (string line in File.ReadLines(openFileDialog3.FileName, Encoding.UTF8))
+            {
+                string[] coords = line.Split(',');
+                Point point = new Point();
+                point.X = Convert.ToInt32(coords[0]);
+                point.Y = Convert.ToInt32(coords[1]);
+                points.Add(point);
+            }
+            points1 = points.ToArray();
+            chkPoints1FromFile.Enabled = true;
+            chkPoints1FromFile.Checked = true;
+            nudPoints1.Value = points1.Length;
+            nudPoints1.Enabled = false;
         }
 
         private void ComputeFromLinesAndFillGrid()
@@ -283,7 +310,6 @@ namespace wmap_analysis
                 for (int j = 0; j < 512; j++)
                     bitmap.SetPixel(i, j, Color.White);
             cbLineColor.SelectedIndex = 0;
-            cbImageSize.SelectedIndex = 1;
         }
 
         private void loadImageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -304,7 +330,7 @@ namespace wmap_analysis
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Point[] oPoints1, oPoints2;
+            Point[] oPoints1 = null, oPoints2 = null;
             Line[] oLines = null;
             List<Intersection> oIntersections;
             List<IntersectionGroup> oIntersectionGroups;
@@ -316,7 +342,20 @@ namespace wmap_analysis
             int maxY = Convert.ToInt32(args[4]);
             int tolerance = Convert.ToInt32(args[5]);
             float minRatio = Convert.ToSingle(args[6]);
+            bool points1FromFile = Convert.ToBoolean(args[7]);
 
+            //!Thread safety issues
+            if (points1FromFile)
+            {
+                int length = points1.Length;
+                oPoints1 = new Point[length];
+                for (int i = 0; i < length; i++)
+                {
+                    oPoints1[i].X = points1[i].X;
+                }
+            }
+
+            // Seed the random number generator with the least significant bits of the date.
             long ticks = DateTime.Now.Ticks;
             ulong uticks = Convert.ToUInt64(ticks);
             for (int shift = 1; uticks > Int32.MaxValue; shift++)
@@ -337,10 +376,13 @@ namespace wmap_analysis
                 }
                 else
                 {
-                    oPoints1 = new Point[numPoints1];
+                    if (!points1FromFile)
+                    {
+                        oPoints1 = new Point[numPoints1];
+                        for (int i = 0; i < numPoints1; i++)
+                            oPoints1[i] = new Point(rand.Next(512), rand.Next(maxY));
+                    }
                     oPoints2 = new Point[numPoints2];
-                    for (int i = 0; i < numPoints1; i++)
-                        oPoints1[i] = new Point(rand.Next(512), rand.Next(maxY));
                     for (int i = 0; i < numPoints2; i++)
                         oPoints2[i] = new Point(rand.Next(512), rand.Next(maxY));
                     oLines = GetLines(oPoints1, oPoints2);
@@ -381,8 +423,8 @@ namespace wmap_analysis
                 int lines = Convert.ToInt32(nudLines.Value);
                 int numPoints1 = Convert.ToInt32(nudPoints1.Value);
                 int numPoints2 = Convert.ToInt32(nudPoints2.Value);
-                int maxY = cbImageSize.SelectedIndex == 0 ? 256 : 512;
-                decimal[] args = new decimal[7];
+                int maxY = 512;
+                decimal[] args = new decimal[8];
                 args[0] = targetHits;
                 args[1] = lines;
                 args[2] = numPoints1;
@@ -390,6 +432,7 @@ namespace wmap_analysis
                 args[4] = maxY;
                 args[5] = nudTolerance.Value;
                 args[6] = nudMinRatio.Value;
+                args[7] = chkPoints1FromFile.Checked ? 1 : 0;
 
                 btnOdds.Enabled = false;
                 btnCancel.Enabled = true;

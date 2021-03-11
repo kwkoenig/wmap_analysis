@@ -32,6 +32,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.open1FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -50,16 +51,16 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.nudPoints1 = new System.Windows.Forms.NumericUpDown();
-            this.label7 = new System.Windows.Forms.Label();
-            this.nudPoints2 = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
-            this.cbImageSize = new System.Windows.Forms.ComboBox();
             this.btnOdds = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.nudHits = new System.Windows.Forms.NumericUpDown();
             this.lblOdds = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.worker = new System.ComponentModel.BackgroundWorker();
+            this.chkPoints1FromFile = new System.Windows.Forms.CheckBox();
+            this.openFileDialog3 = new System.Windows.Forms.OpenFileDialog();
+            this.nudPoints2 = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -68,8 +69,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudTolerance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLines)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudPoints1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudPoints2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHits)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudPoints2)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -94,23 +95,31 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.open1FileToolStripMenuItem,
             this.openFilesToolStripMenuItem,
             this.loadImageToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // open1FileToolStripMenuItem
+            // 
+            this.open1FileToolStripMenuItem.Name = "open1FileToolStripMenuItem";
+            this.open1FileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.open1FileToolStripMenuItem.Text = "Open 1 File";
+            this.open1FileToolStripMenuItem.Click += new System.EventHandler(this.open1FileToolStripMenuItem_Click);
+            // 
             // openFilesToolStripMenuItem
             // 
             this.openFilesToolStripMenuItem.Name = "openFilesToolStripMenuItem";
-            this.openFilesToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-            this.openFilesToolStripMenuItem.Text = "Open Files";
+            this.openFilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openFilesToolStripMenuItem.Text = "Open 2 Files";
             this.openFilesToolStripMenuItem.Click += new System.EventHandler(this.OpenFilesToolStripMenuItem_Click);
             // 
             // loadImageToolStripMenuItem
             // 
             this.loadImageToolStripMenuItem.Name = "loadImageToolStripMenuItem";
-            this.loadImageToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.loadImageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadImageToolStripMenuItem.Text = "Load Image";
             this.loadImageToolStripMenuItem.Click += new System.EventHandler(this.loadImageToolStripMenuItem_Click);
             // 
@@ -235,7 +244,7 @@
             // 
             // nudLines
             // 
-            this.nudLines.Location = new System.Drawing.Point(270, 595);
+            this.nudLines.Location = new System.Drawing.Point(135, 594);
             this.nudLines.Name = "nudLines";
             this.nudLines.Size = new System.Drawing.Size(51, 20);
             this.nudLines.TabIndex = 22;
@@ -243,7 +252,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(234, 596);
+            this.label5.Location = new System.Drawing.Point(99, 595);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(35, 13);
             this.label5.TabIndex = 23;
@@ -252,7 +261,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(330, 596);
+            this.label6.Location = new System.Drawing.Point(202, 597);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(48, 13);
             this.label6.TabIndex = 25;
@@ -260,7 +269,7 @@
             // 
             // nudPoints1
             // 
-            this.nudPoints1.Location = new System.Drawing.Point(379, 595);
+            this.nudPoints1.Location = new System.Drawing.Point(256, 610);
             this.nudPoints1.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -280,18 +289,97 @@
             0,
             0});
             // 
-            // label7
+            // btnOdds
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(439, 596);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(48, 13);
-            this.label7.TabIndex = 27;
-            this.label7.Text = "Points 2:";
+            this.btnOdds.Location = new System.Drawing.Point(7, 635);
+            this.btnOdds.Name = "btnOdds";
+            this.btnOdds.Size = new System.Drawing.Size(56, 23);
+            this.btnOdds.TabIndex = 30;
+            this.btnOdds.Text = "Odds";
+            this.btnOdds.UseVisualStyleBackColor = true;
+            this.btnOdds.Click += new System.EventHandler(this.btnOdds_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(9, 595);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(28, 13);
+            this.label4.TabIndex = 32;
+            this.label4.Text = "Hits:";
+            // 
+            // nudHits
+            // 
+            this.nudHits.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudHits.Location = new System.Drawing.Point(39, 594);
+            this.nudHits.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudHits.Name = "nudHits";
+            this.nudHits.Size = new System.Drawing.Size(51, 20);
+            this.nudHits.TabIndex = 31;
+            this.nudHits.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
+            // lblOdds
+            // 
+            this.lblOdds.AutoSize = true;
+            this.lblOdds.Location = new System.Drawing.Point(462, 597);
+            this.lblOdds.Name = "lblOdds";
+            this.lblOdds.Size = new System.Drawing.Size(35, 13);
+            this.lblOdds.TabIndex = 33;
+            this.lblOdds.Text = "Odds:";
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Enabled = false;
+            this.btnCancel.Location = new System.Drawing.Point(72, 635);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(56, 23);
+            this.btnCancel.TabIndex = 34;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // worker
+            // 
+            this.worker.WorkerReportsProgress = true;
+            this.worker.WorkerSupportsCancellation = true;
+            this.worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.worker_DoWork);
+            this.worker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.worker_ProgressChanged);
+            this.worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.worker_RunWorkerCompleted);
+            // 
+            // chkPoints1FromFile
+            // 
+            this.chkPoints1FromFile.AutoSize = true;
+            this.chkPoints1FromFile.Enabled = false;
+            this.chkPoints1FromFile.Location = new System.Drawing.Point(257, 587);
+            this.chkPoints1FromFile.Name = "chkPoints1FromFile";
+            this.chkPoints1FromFile.Size = new System.Drawing.Size(65, 17);
+            this.chkPoints1FromFile.TabIndex = 35;
+            this.chkPoints1FromFile.Text = "From file";
+            this.chkPoints1FromFile.UseVisualStyleBackColor = true;
+            // 
+            // openFileDialog3
+            // 
+            this.openFileDialog3.DefaultExt = "txt";
+            this.openFileDialog3.FileName = "openFileDialog1";
+            this.openFileDialog3.Filter = "txt files (*.txt)|*.txt";
+            this.openFileDialog3.RestoreDirectory = true;
+            this.openFileDialog3.Title = "Browse For 1 Text File";
             // 
             // nudPoints2
             // 
-            this.nudPoints2.Location = new System.Drawing.Point(490, 595);
+            this.nudPoints2.Location = new System.Drawing.Point(378, 594);
             this.nudPoints2.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -311,108 +399,26 @@
             0,
             0});
             // 
-            // label8
+            // label7
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(550, 596);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(62, 13);
-            this.label8.TabIndex = 28;
-            this.label8.Text = "Image Size:";
-            // 
-            // cbImageSize
-            // 
-            this.cbImageSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbImageSize.FormattingEnabled = true;
-            this.cbImageSize.Items.AddRange(new object[] {
-            "256 X 512",
-            "512 X 512"});
-            this.cbImageSize.Location = new System.Drawing.Point(614, 592);
-            this.cbImageSize.Name = "cbImageSize";
-            this.cbImageSize.Size = new System.Drawing.Size(76, 21);
-            this.cbImageSize.TabIndex = 29;
-            // 
-            // btnOdds
-            // 
-            this.btnOdds.Location = new System.Drawing.Point(13, 592);
-            this.btnOdds.Name = "btnOdds";
-            this.btnOdds.Size = new System.Drawing.Size(56, 23);
-            this.btnOdds.TabIndex = 30;
-            this.btnOdds.Text = "Odds";
-            this.btnOdds.UseVisualStyleBackColor = true;
-            this.btnOdds.Click += new System.EventHandler(this.btnOdds_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(144, 596);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(28, 13);
-            this.label4.TabIndex = 32;
-            this.label4.Text = "Hits:";
-            // 
-            // nudHits
-            // 
-            this.nudHits.Increment = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.nudHits.Location = new System.Drawing.Point(174, 595);
-            this.nudHits.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.nudHits.Name = "nudHits";
-            this.nudHits.Size = new System.Drawing.Size(51, 20);
-            this.nudHits.TabIndex = 31;
-            this.nudHits.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            // 
-            // lblOdds
-            // 
-            this.lblOdds.AutoSize = true;
-            this.lblOdds.Location = new System.Drawing.Point(702, 595);
-            this.lblOdds.Name = "lblOdds";
-            this.lblOdds.Size = new System.Drawing.Size(35, 13);
-            this.lblOdds.TabIndex = 33;
-            this.lblOdds.Text = "Odds:";
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.Enabled = false;
-            this.btnCancel.Location = new System.Drawing.Point(78, 592);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(56, 23);
-            this.btnCancel.TabIndex = 34;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // worker
-            // 
-            this.worker.WorkerReportsProgress = true;
-            this.worker.WorkerSupportsCancellation = true;
-            this.worker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.worker_DoWork);
-            this.worker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.worker_ProgressChanged);
-            this.worker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.worker_RunWorkerCompleted);
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(324, 597);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(48, 13);
+            this.label7.TabIndex = 27;
+            this.label7.Text = "Points 2:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(981, 622);
+            this.ClientSize = new System.Drawing.Size(981, 670);
+            this.Controls.Add(this.chkPoints1FromFile);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lblOdds);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.nudHits);
             this.Controls.Add(this.btnOdds);
-            this.Controls.Add(this.cbImageSize);
-            this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.nudPoints2);
             this.Controls.Add(this.label6);
@@ -445,8 +451,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudTolerance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudLines)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudPoints1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudPoints2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHits)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudPoints2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -475,16 +481,17 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.NumericUpDown nudPoints1;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.NumericUpDown nudPoints2;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox cbImageSize;
         private System.Windows.Forms.Button btnOdds;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown nudHits;
         private System.Windows.Forms.Label lblOdds;
         private System.Windows.Forms.Button btnCancel;
         private System.ComponentModel.BackgroundWorker worker;
+        private System.Windows.Forms.ToolStripMenuItem open1FileToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkPoints1FromFile;
+        private System.Windows.Forms.OpenFileDialog openFileDialog3;
+        private System.Windows.Forms.NumericUpDown nudPoints2;
+        private System.Windows.Forms.Label label7;
     }
 }
 
