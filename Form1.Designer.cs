@@ -105,21 +105,21 @@
             // open1FileToolStripMenuItem
             // 
             this.open1FileToolStripMenuItem.Name = "open1FileToolStripMenuItem";
-            this.open1FileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.open1FileToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.open1FileToolStripMenuItem.Text = "Open 1 File";
             this.open1FileToolStripMenuItem.Click += new System.EventHandler(this.open1FileToolStripMenuItem_Click);
             // 
             // openFilesToolStripMenuItem
             // 
             this.openFilesToolStripMenuItem.Name = "openFilesToolStripMenuItem";
-            this.openFilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openFilesToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.openFilesToolStripMenuItem.Text = "Open 2 Files";
             this.openFilesToolStripMenuItem.Click += new System.EventHandler(this.OpenFilesToolStripMenuItem_Click);
             // 
             // loadImageToolStripMenuItem
             // 
             this.loadImageToolStripMenuItem.Name = "loadImageToolStripMenuItem";
-            this.loadImageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadImageToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.loadImageToolStripMenuItem.Text = "Load Image";
             this.loadImageToolStripMenuItem.Click += new System.EventHandler(this.loadImageToolStripMenuItem_Click);
             // 
@@ -248,6 +248,11 @@
             this.nudLines.Name = "nudLines";
             this.nudLines.Size = new System.Drawing.Size(51, 20);
             this.nudLines.TabIndex = 22;
+            this.nudLines.Value = new decimal(new int[] {
+            13,
+            0,
+            0,
+            0});
             // 
             // label5
             // 
@@ -269,7 +274,7 @@
             // 
             // nudPoints1
             // 
-            this.nudPoints1.Location = new System.Drawing.Point(256, 610);
+            this.nudPoints1.Location = new System.Drawing.Point(258, 593);
             this.nudPoints1.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -284,7 +289,7 @@
             this.nudPoints1.Size = new System.Drawing.Size(51, 20);
             this.nudPoints1.TabIndex = 24;
             this.nudPoints1.Value = new decimal(new int[] {
-            1,
+            30,
             0,
             0,
             0});
@@ -362,7 +367,7 @@
             // 
             this.chkPoints1FromFile.AutoSize = true;
             this.chkPoints1FromFile.Enabled = false;
-            this.chkPoints1FromFile.Location = new System.Drawing.Point(257, 587);
+            this.chkPoints1FromFile.Location = new System.Drawing.Point(258, 619);
             this.chkPoints1FromFile.Name = "chkPoints1FromFile";
             this.chkPoints1FromFile.Size = new System.Drawing.Size(65, 17);
             this.chkPoints1FromFile.TabIndex = 35;
@@ -394,7 +399,7 @@
             this.nudPoints2.Size = new System.Drawing.Size(51, 20);
             this.nudPoints2.TabIndex = 26;
             this.nudPoints2.Value = new decimal(new int[] {
-            1,
+            30,
             0,
             0,
             0});

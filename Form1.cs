@@ -367,39 +367,73 @@ namespace wmap_analysis
             Random rand = new Random(Convert.ToInt32(iticks));
             int[] progress = new int[2];
 
-            for (int trial = 1, hits = 0; hits < targetHits; trial++)
+            // Performance is King
+            if (!points1FromFile)
             {
-                if (worker.CancellationPending == true)
+                for (int trial = 1, hits = 0; hits < targetHits; trial++)
                 {
-                    e.Cancel = true;
-                    break;
-                }
-                else
-                {
-                    if (!points1FromFile)
+                    if (worker.CancellationPending == true)
+                    {
+                        e.Cancel = true;
+                        break;
+                    }
+                    else
                     {
                         oPoints1 = new Point[numPoints1];
                         for (int i = 0; i < numPoints1; i++)
                             oPoints1[i] = new Point(rand.Next(512), rand.Next(maxY));
-                    }
-                    oPoints2 = new Point[numPoints2];
-                    for (int i = 0; i < numPoints2; i++)
-                        oPoints2[i] = new Point(rand.Next(512), rand.Next(maxY));
-                    oLines = GetLines(oPoints1, oPoints2);
-                    oIntersections = GetIntersections(oLines, minRatio);
-                    oIntersectionGroups = GetIntersectionGroups(oIntersections, tolerance);
-                    for (int i = 0, j = oIntersectionGroups.Count; i < j; i++)
-                    {
-                        int count = oIntersectionGroups[i].Lines.Count;
-                        if (count == lines)
+                        oPoints2 = new Point[numPoints2];
+                        for (int i = 0; i < numPoints2; i++)
+                            oPoints2[i] = new Point(rand.Next(512), rand.Next(maxY));
+                        oLines = GetLines(oPoints1, oPoints2);
+                        oIntersections = GetIntersections(oLines, minRatio);
+                        oIntersectionGroups = GetIntersectionGroups(oIntersections, tolerance);
+                        for (int i = 0, j = oIntersectionGroups.Count; i < j; i++)
                         {
-                            ++hits;
-                            progress[0] = trial;
-                            progress[1] = hits;
-                            worker.ReportProgress(0, progress);
+                            int count = oIntersectionGroups[i].Lines.Count;
+                            if (count == lines)
+                            {
+                                ++hits;
+                                progress[0] = trial;
+                                progress[1] = hits;
+                                worker.ReportProgress(0, progress);
+                            }
+                            else if (count < lines)
+                                break;
                         }
-                        else if (count < lines)
-                            break;
+                    }
+                }
+            }
+            else
+            {
+                for (int trial = 1, hits = 0; hits < targetHits; trial++)
+                {
+                    if (worker.CancellationPending == true)
+                    {
+                        e.Cancel = true;
+                        break;
+                    }
+                    else
+                    {
+                        oPoints2 = new Point[numPoints2];
+                        for (int i = 0; i < numPoints2; i++)
+                            oPoints2[i] = new Point(rand.Next(512), rand.Next(maxY));
+                        oLines = GetLines(oPoints1, oPoints2);
+                        oIntersections = GetIntersections(oLines, minRatio);
+                        oIntersectionGroups = GetIntersectionGroups(oIntersections, tolerance);
+                        for (int i = 0, j = oIntersectionGroups.Count; i < j; i++)
+                        {
+                            int count = oIntersectionGroups[i].Lines.Count;
+                            if (count == lines)
+                            {
+                                ++hits;
+                                progress[0] = trial;
+                                progress[1] = hits;
+                                worker.ReportProgress(0, progress);
+                            }
+                            else if (count < lines)
+                                break;
+                        }
                     }
                 }
             }
