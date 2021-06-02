@@ -494,6 +494,18 @@ namespace wmap_analysis
                 ComputeFromLinesAndFillGrid();
         }
 
+        private void saveImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string fileName = saveFileDialog1.FileName;
+                if (!fileName.EndsWith(".png"))
+                    fileName = string.Format("{0}{1}", fileName, ".png");
+                pictureBox1.Image.Save(fileName, System.Drawing.Imaging.ImageFormat.Png);
+            }
+
+        }
+
         private void nudMinRatio_ValueChanged(object sender, EventArgs e)
         {
             if (lines != null)

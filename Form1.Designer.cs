@@ -61,6 +61,8 @@
             this.openFileDialog3 = new System.Windows.Forms.OpenFileDialog();
             this.nudPoints2 = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.saveImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -97,7 +99,8 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.open1FileToolStripMenuItem,
             this.openFilesToolStripMenuItem,
-            this.loadImageToolStripMenuItem});
+            this.loadImageToolStripMenuItem,
+            this.saveImageToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -105,21 +108,21 @@
             // open1FileToolStripMenuItem
             // 
             this.open1FileToolStripMenuItem.Name = "open1FileToolStripMenuItem";
-            this.open1FileToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.open1FileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.open1FileToolStripMenuItem.Text = "Open 1 File";
             this.open1FileToolStripMenuItem.Click += new System.EventHandler(this.open1FileToolStripMenuItem_Click);
             // 
             // openFilesToolStripMenuItem
             // 
             this.openFilesToolStripMenuItem.Name = "openFilesToolStripMenuItem";
-            this.openFilesToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.openFilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openFilesToolStripMenuItem.Text = "Open 2 Files";
             this.openFilesToolStripMenuItem.Click += new System.EventHandler(this.OpenFilesToolStripMenuItem_Click);
             // 
             // loadImageToolStripMenuItem
             // 
             this.loadImageToolStripMenuItem.Name = "loadImageToolStripMenuItem";
-            this.loadImageToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.loadImageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadImageToolStripMenuItem.Text = "Load Image";
             this.loadImageToolStripMenuItem.Click += new System.EventHandler(this.loadImageToolStripMenuItem_Click);
             // 
@@ -413,6 +416,13 @@
             this.label7.TabIndex = 27;
             this.label7.Text = "Points 2:";
             // 
+            // saveImageToolStripMenuItem
+            // 
+            this.saveImageToolStripMenuItem.Name = "saveImageToolStripMenuItem";
+            this.saveImageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveImageToolStripMenuItem.Text = "Save Image";
+            this.saveImageToolStripMenuItem.Click += new System.EventHandler(this.saveImageToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -497,6 +507,8 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog3;
         private System.Windows.Forms.NumericUpDown nudPoints2;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.ToolStripMenuItem saveImageToolStripMenuItem;
     }
 }
 
